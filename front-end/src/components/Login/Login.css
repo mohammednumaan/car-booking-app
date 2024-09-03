@@ -4,9 +4,8 @@
 }
 
 body{
-    background: rgb(0,0,0);
-    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(52,26,20,1) 95%);
-    color: white;
+  background: #121212;
+  
     
 }
 
@@ -39,10 +38,9 @@ a:link {
 
 .login-form-container{
     display: grid;
-    grid-template-columns: 320px auto;
 
     height: 700px;
-    width: 930px;
+    width: 730px;
     /* border: 1px solid white; */
     border-radius: 20px ;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
@@ -55,7 +53,7 @@ a:link {
 
     background-color:black ;
     mask-position: right;
-    mask-image: linear-gradient(to right, #7d3c2f, transparent 110%);
+    mask-image: linear-gradient(to right, white,transparent 120%);
     mix-blend-mode: hard-light;
 }
 
@@ -65,14 +63,14 @@ a:link {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgb(0,0,0);
-    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(52,26,20,1) 95%);
+    background: #111010;
+
     border-radius: 20px ;
     height: 700px;
 
 }
 
-
+  
 
 form {
   display: flex;
@@ -84,7 +82,7 @@ form {
 h2 {
   font-size: 2rem;
   margin-bottom: 50px;
-  color: #fff;
+  color: #90caf9;
 }
 
 .input-field {
@@ -102,7 +100,7 @@ input{
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-  color: #fff;
+  color: #90caf9;
   font-size: 16px;
   pointer-events: none;
   transition: 0.15s ease;
@@ -114,7 +112,7 @@ input{
   border: none;
   outline: none;
   font-size: 16px;
-  color: #fff;
+  color: #90caf9;
   background-color: none;
 }
 
@@ -137,13 +135,12 @@ input[data-autocompleted] {
   align-items: center;
   justify-content: space-between;
   margin: 25px 0 35px 0;
-  color: #fff;
+  color: #90caf9;
 }
 
 #Save-login {
-  accent-color: #fff;
+  color: #90caf9;
 }
-
 .forget label {
   display: flex;
   align-items: center;
@@ -163,7 +160,7 @@ input[data-autocompleted] {
 }
 
 button {
-  background: #fff;
+  color: #90caf9;
   color: #000;
   font-weight: 600;
   border: none;
@@ -177,7 +174,7 @@ button {
 }
 
 button:hover {
-  color: #fff;
+  color: #90caf9;
   border-color: #fff;
   background: rgba(255, 255, 255, 0.15);
 }
@@ -185,5 +182,5 @@ button:hover {
 .Create-account {
   text-align: center;
   margin-top: 30px;
-  color: #fff;
+  color: #90caf9;
 }

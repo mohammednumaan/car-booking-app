@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import "./Login.css"
-import { Navigate, useNavigate } from "react-router-dom"
+import { useState } from "react"
+import "../Login/Login.css"
+import { useNavigate } from "react-router-dom"
+export default function Register(){
 
-
-export default function Login(){
     const [formData, setFormData] = useState({username: "", password: ""});
     const navigate = useNavigate();
 
@@ -15,39 +14,35 @@ export default function Login(){
 
     }
 
-
-    async function loginUser(e){
+    async function registerUser(e){
         e.preventDefault()
-        const response = await fetch("http://localhost:3000/users/login", {
+        const response = await fetch("http://localhost:3000/users/register", {
             method: 'POST',
             body: JSON.stringify(formData),
             headers: {'Content-Type': 'application/json'},
             credentials: 'include'
         });
         const jsonData = await response.json();
-        if (jsonData.login){
-            console.log(jsonData.login)
-            navigate('/dashboard', {state: {user: jsonData.login}})
+        if (jsonData.registered){
+            navigate('/login')
         }
 
     }
 
     return (
-
-
         <div className="login-form">
 
             
-<div className="login-form-container">
+            <div className="login-form-container">
                 
                 {/* <div className="login-image">
                     <img id="login-image" src="/public/blue-art.jpg" width={"320px"} height={"700px"}/>
                 </div> */}
 
                 <div className="form">
-                    <form onSubmit={loginUser}>
+                    <form onSubmit={registerUser}>
 
-                        <h2 className="form-title">L O G I N</h2>
+                        <h2 className="form-title">R E G I S T E R</h2>
                         <div className="input-field">
                             <input onChange={handleFormChange} value={formData.username} id="username" name="username" type="text" required />
                             <label htmlFor="username">Enter username</label>
@@ -56,9 +51,9 @@ export default function Login(){
                             <input onChange={handleFormChange} value={formData.password} id= "password" name="password" type="password" required />
                             <label htmlFor="password">Enter password</label>
                         </div>
-                        <button type="submit">Login</button>
+                        <button type="submit">Register</button>
                         <div className="Create-account">
-                            <p>Create An Account? <a href="#">Register</a></p>
+                            <p>Already have an account? <a href="#">Login</a></p>
                         </div>
                     </form>
                      </div>

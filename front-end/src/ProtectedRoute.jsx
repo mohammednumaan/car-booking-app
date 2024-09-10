@@ -1,7 +1,7 @@
 import React, { Children, useEffect, useState } from 'react';
 import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-const ProtectedRoute = ({ user, children }) => {
+const ProtectedRoute = ({}) => {
 
     let navigate = useNavigate()
     let [auth, setAuth] = useState({ user: false })
@@ -25,7 +25,7 @@ const ProtectedRoute = ({ user, children }) => {
     return (
         <>  
             
-            {isLoading ? <h1 style={{textAlign: 'center'}}>Loading...</h1> : children}
+            {isLoading ? <h1 style={{textAlign: 'center'}}>Loading...</h1> : <Outlet />}
         </>
     )
 

@@ -1,60 +1,20 @@
-import { BookOnlineRounded, CarRentalRounded, CollectionsBookmarkRounded, DashboardRounded, HistoryEduRounded, HistoryRounded, LoginTwoTone, ManageAccountsRounded, PersonOutlineRounded, PersonRounded } from "@mui/icons-material";
+import { BookOnlineRounded, CarRentalRounded, CollectionsBookmarkRounded, DashboardCustomizeOutlined, DashboardRounded, HistoryEduRounded, HistoryRounded, LoginTwoTone, ManageAccountsRounded, PersonOutlineRounded, PersonRounded } from "@mui/icons-material";
 import { AppProvider, DashboardLayout } from "@toolpad/core"
-import { Link } from "react-router-dom"
-import Login from "../Login/Login";
 import { Box, createTheme, Typography } from "@mui/material";
 import './Dashboard.css'
 
-export default function Dashboard(){
+export default function PrimaryComponent({children}){
     const Navigation = [
-        {
-            kind: 'divider',
-        },
-        {
-            kind: 'header',
-            title: 'Home',
-        },
-        {
-          segment: 'dashboard',
-          title: 'Dashboard',
-          icon: <DashboardRounded />,
-        },
-        {
-          segment: 'history',
-          title: 'Booking History',
-          icon: <HistoryRounded />,
-        },
-
-        {
-            kind: 'divider',
-        },
-        {
-            kind: 'header',
-            title: 'Booking',
-        },
-
-        {
-            segment: 'book-own',
-            title: 'Book For Yourself',
-            icon: <CollectionsBookmarkRounded />,
-        },
-        {
-            segment: 'book-guest',
-            title: 'Book For Guest',
-            icon: <PersonRounded />,
-        },
-        {
-            kind: 'divider',
-        },
-        {
-            kind: 'header',
-            title: 'Account',
-        },
-        {
-            segment: 'account',
-            title: 'Account',
-            icon: <ManageAccountsRounded />,
-        },
+      {
+        segment: 'dashboard',
+        title: 'Dashboard',
+        icon: <DashboardCustomizeOutlined />,
+      },
+      {
+        segment: 'book-own',
+        title: 'Book For You',
+        icon: <CarRentalRounded />,
+      },
       ];
 
 
@@ -74,40 +34,16 @@ export default function Dashboard(){
               },
             },
       });;
-
-      function DemoPageContent() {
-        return (
-          <Box
-            sx={{
-              py: 54.9,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              textAlign: 'center',
-              backgroundColor: "#121212"
-            }}
-          >
-            <Typography>Dashboard</Typography>
-          </Box>
-        );
-      }
     return (
         <div className="dashboard-container">
-
             <AppProvider
                 navigation={Navigation}
-                branding={{    
-                    title: 'PSG Cars',
-                    
-                }}
-                
+                branding={{ title: 'PSG Cars'}}              
                 theme={customTheme}
-                
-    
-                >
-                    <DashboardLayout >
-                        <DemoPageContent />
-                    </DashboardLayout>
+            >
+                <DashboardLayout >
+                  {children}
+                </DashboardLayout>
             </AppProvider>
         </div>
     )

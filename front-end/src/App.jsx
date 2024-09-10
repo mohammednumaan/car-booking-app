@@ -5,6 +5,8 @@ import Dashboard from './components/UserDashboard/Dashboard';
 import Register from './components/Register/Register';
 import ProtectedRoute from './ProtectedRoute';
 import { useEffect, useState } from 'react';
+import BookOwn from './components/Booking/BookingOwn';
+import PrimaryComponent from './components/UserDashboard/Dashboard';
 
 
 function App() {
@@ -26,12 +28,9 @@ function App() {
       <Route path='register' element={<Register />} />
       <Route path='login' element={<Login />} />
       
-      <Route path='dashboard' element={
-        <ProtectedRoute user={user.user}>
-          <Dashboard />
-        </ProtectedRoute>
-      }>
-    
+      <Route element={<ProtectedRoute user={user.user} />}>
+        <Route path='dashboard' element={<PrimaryComponent children={<Dashboard />} />} />
+        <Route path='book-own' element={<PrimaryComponent children={<BookOwn />} />} />          
       </Route>
 
     </Routes>

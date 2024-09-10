@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material"
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material"
 import style from "./Booking.module.css"
 import { DateTimePicker } from "@mui/x-date-pickers"
 
@@ -14,6 +14,7 @@ export default function BookOwn(){
 
                 <form id={style.form}>
                     <div className={style["booking-form"]}>
+                        <div className={style["flex-row"]}>
                         <div className={style["form-group"]}>
                             <TextField
                                 label="First Name"
@@ -31,7 +32,8 @@ export default function BookOwn(){
                                 size="small"
                                 />
                         </div>
-                    </div>
+                        </div>
+                    
 
 
                     <div className={style["form-group"]}>
@@ -41,11 +43,12 @@ export default function BookOwn(){
                         placeholder="example@example.com"
                         size="small"
                         color="#90caf9"
-                        sx={{width: "37.5%"}}
+                        sx={{width : "630px"}}
                         />
                     </div>
 
-                    <div className={style["booking-form"]}>
+
+                    <div className={style["flex-row"]}>
                         <div className={style["form-group"]}>
                             <TextField
                                 label="Pickup Location"
@@ -55,6 +58,7 @@ export default function BookOwn(){
                                 />
                         </div>
 
+                        
                         <div className={style["form-group"]}>
                             <TextField
                             label="Drop Location"
@@ -72,6 +76,25 @@ export default function BookOwn(){
                             type="datetime-local"
                             name="datetime"
                             value="2017-06-01T08:30" />
+                    </div>
+                    
+                    <div className={style["form-group"]}>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Is it Dual Trip?</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={0}
+                            label="Is it Dual Trip?"
+                            sx={{width : "630px"}}
+
+                            // onChange={handleChange}
+                        >
+                        <MenuItem value={1}>Yes</MenuItem>
+                        <MenuItem value={0}>No</MenuItem>s
+                        </Select>
+                        </FormControl>
+                    </div>
                     </div>
                 </form>
             </div>

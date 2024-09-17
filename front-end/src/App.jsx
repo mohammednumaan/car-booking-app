@@ -28,7 +28,7 @@ function App() {
         setUser((prev) => ({ ...prev, user: jsonData.user }));
       }
     });
-  }, [user]);
+  }, []);
 
   return (
     <Routes>

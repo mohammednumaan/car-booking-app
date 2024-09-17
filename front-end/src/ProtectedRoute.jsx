@@ -20,7 +20,7 @@ const ProtectedRoute = ({}) => {
             }
 
         })();
-    }, [auth, isLoading])
+    }, [])
 
     return (
         <>  

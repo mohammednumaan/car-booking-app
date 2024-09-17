@@ -28,22 +28,32 @@
     display: flex;
     justify-content: flex-start;
     align-items: flex-start; 
-    gap: 40px; 
     width: 50%;
 }
 
 #datetime {
-    width: 410px;
+    width: 290px;
     height: 40px;
     text-align: left; 
     padding: 5px; 
+    background-color: #90caf9;
+    color: #121212;
 }
 
 
 .form-timings {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;  
-    width: 100%;
+    gap: 20px;
+
+    background-color: #121212;
+    color: #90caf9;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.dual-trip-options{
+    display: flex;
 }

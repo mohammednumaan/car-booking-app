@@ -15,6 +15,12 @@ export default function PrimaryComponent({children}){
         title: 'Book For You',
         icon: <CarRentalRounded />,
       },
+
+      {
+        segment: 'history',
+        title: 'History',
+        icon: <HistoryRounded />,
+      },
       ];
 
 

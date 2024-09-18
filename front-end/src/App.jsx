@@ -45,6 +45,10 @@ function App() {
           path="book-own"
           element={<PrimaryComponent children={<BookOwn />} />}
         />
+        <Route
+          path="history"
+          element={<PrimaryComponent children={<History />} />}
+        />
       </Route>
     </Routes>
   );

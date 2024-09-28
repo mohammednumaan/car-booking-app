@@ -1,6 +1,7 @@
 import { useState } from "react";
-import "../Login/Login.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import "./Form.css";
+
 export default function Register() {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const navigate = useNavigate();
@@ -26,13 +27,10 @@ export default function Register() {
   }
 
   return (
-    <div className="login-form">
-      <div className="login-form-container">
-        {/* <div className="login-image">
-                    <img id="login-image" src="/public/blue-art.jpg" width={"320px"} height={"700px"}/>
-                </div> */}
+    <div className="form">
+      <div className="form-container">
 
-        <div className="form">
+        <div className="form-ui">
           <form onSubmit={registerUser}>
             <h2 className="form-title">R E G I S T E R</h2>
             <div className="input-field">
@@ -82,7 +80,7 @@ export default function Register() {
             <button type="submit">Register</button>
             <div className="Create-account">
               <p>
-                Already have an account? <a href="#">Login</a>
+                Already have an account? <Link to='/login'>Login</Link>
               </p>
             </div>
           </form>

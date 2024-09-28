@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import "./Login.css"
-import { Navigate, useNavigate } from "react-router-dom"
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom"
+import './Form.css'
 
 
 export default function Login(){
@@ -25,8 +25,8 @@ export default function Login(){
             credentials: 'include'
         });
         const jsonData = await response.json();
+        console.log(jsonData)
         if (jsonData.login){
-            console.log(jsonData.login)
             navigate('/dashboard', {state: {user: jsonData.login}})
         }
 
@@ -35,16 +35,9 @@ export default function Login(){
     return (
 
 
-        <div className="login-form">
-
-            
-<div className="login-form-container">
-                
-                {/* <div className="login-image">
-                    <img id="login-image" src="/public/blue-art.jpg" width={"320px"} height={"700px"}/>
-                </div> */}
-
-                <div className="form">
+        <div className="form">            
+            <div className="form-container">
+                <div className="form-ui">
                     <form onSubmit={loginUser}>
 
                         <h2 className="form-title">L O G I N</h2>
@@ -58,7 +51,7 @@ export default function Login(){
                         </div>
                         <button type="submit">Login</button>
                         <div className="Create-account">
-                            <p>Create An Account? <a href="#">Register</a></p>
+                            <p>Create An Account? <Link to='/register'>Register</Link></p>
                         </div>
                     </form>
                      </div>

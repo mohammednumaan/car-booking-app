@@ -1,18 +1,15 @@
 import {
   Route,
-  RouterProvider,
   Routes,
-  createBrowserRouter,
 } from "react-router-dom";
 
-import routes from "../routes";
-import Login from "./components/Login/Login";
 import Dashboard from "./components/UserDashboard/Dashboard";
-import Register from "./components/Register/Register";
 import ProtectedRoute from "./ProtectedRoute";
 import { useEffect, useState } from "react";
 import BookOwn from "./components/Booking/BookingOwn";
 import PrimaryComponent from "./components/UserDashboard/Dashboard";
+import Register from "./components/Login_Register/Register";
+import Login from "./components/Login_Register/Login";
 
 function App() {
   let [user, setUser] = useState({ user: false });

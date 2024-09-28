@@ -1,10 +1,12 @@
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 const Booking = require("../models/booking");
+const fs = require("fs");
+const multer = require('multer')
+const upload = multer({ dest: 'images/' })
 
 
 module.exports.book_post = [
-
     body("first")
       .trim()
       .escape(),
@@ -20,6 +22,7 @@ module.exports.book_post = [
       body("dropLoc")
       .trim()
       .escape(),
+
     body("reference")
       .trim()
       .escape(),
@@ -28,8 +31,7 @@ module.exports.book_post = [
       .escape(),
 
     asyncHandler(async (req, res, next) => {
-      const errors = validationResult(req);     
-      const booking = new Booking({...req.body})
+      const booking = new Booking({...req.body, img: fs.readFileSync("uploads/" + req.file.filename)});
 
       if (!errors.isEmpty()) {
         res.send({
@@ -39,7 +41,7 @@ module.exports.book_post = [
         });
       } else{
         await booking.save()
-        res.json({booked: true});
+        res.json({booked: true, booking});
       }
 
     }),

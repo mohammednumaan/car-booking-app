@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import style from "./Booking.module.css";
 import { useState } from "react";
-
+const axios = require('axios');
 export default function BookOwn() {
 
   const [isDual, setIsDual] = useState(false);
@@ -25,9 +25,14 @@ export default function BookOwn() {
     dropLoc: "",
     dualTrip: {start: "", end: ""},
     reference: "",
-    no_of_ppl: "",
-    uploadStr: "test"
+    no_of_ppl: 1,
+    imageData: {}
   })
+
+  const handleFileUpload = (e) => {
+    setFormData(prev => ({...prev, imageData: e.target.files[0]}));
+  }
+
 
   const handleFormChange = (e) => {
     let fieldName = e.target.name
@@ -40,19 +45,26 @@ export default function BookOwn() {
     setIsDual(value);    
   } 
 
+  const handleDualTripTimingInput = (e) => {
+    const fieldName = e.target.name;
+    const fieldValue = e.target.value;
+    const prevDualValue = formData.dualTrip;
+    setFormData(prev => ({...prev, dualTrip: {...prevDualValue, [fieldName]: fieldValue}}));
+  }
+
+
   const handleFormSubmit = async (e) => {
     e.preventDefault()
-    const response = await fetch("http://localhost:3000/booking/book", {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    });
+    let data = new FormData();
+    for (let field in formData){
+      data.append(field, formData[field]);
+    }
+    const response = await axios.post("http://localhost:3000/booking/book", formData, {withCredentials: true, headers: formData.getHeaders()})
+    console.log(response)
     const jsonData = await response.json();
     if (jsonData?.message){
       setErrors(jsonData.message)
     }
-    console.log(jsonData, formData)
   }
 
 
@@ -64,7 +76,7 @@ export default function BookOwn() {
           <h2>Secure your ride by filling in your details</h2>
         </div>
 
-        <form id={style.form} onSubmit={handleFormSubmit}>
+        <form id={style.form} onSubmit={handleFormSubmit} method="post" encType="multipart/form-data">
           <div className={style["booking-form"]}>
             <div className={style["flex-row"]}>
               <div className={style["form-group"]}>
@@ -115,6 +127,7 @@ export default function BookOwn() {
                   placeholder="Neelambur"
                   size="small"
                   name="pickLoc"
+                  value={formData.pickLoc || " "}
                   onChange={handleFormChange}
 
 
@@ -128,6 +141,7 @@ export default function BookOwn() {
                   placeholder="Peelamedu"
                   size="small"
                   name="dropLoc"
+                  value={formData.dropLoc || " "}
                   onChange={handleFormChange}
                 />
               </div>
@@ -141,6 +155,8 @@ export default function BookOwn() {
                   labelId="demo-simple-select-required-label"
                   id="demo-simple-select-required"
                   label="Is it a Dual Trip?"
+                  name="dualTrip"
+                  value={"No"}
                   sx={{ width: "630px" }}
                   onChange={handleDualChange}
                 >
@@ -157,9 +173,10 @@ export default function BookOwn() {
                   <input
                     id={style.datetime}
                     type="datetime-local"
-                    name="datetime"
+                    name="start"
                     label="Booking Timings"
-                    value={Date.now()}
+                    value={formData.dualTrip.start || Date.now()}
+                    onChange={handleDualTripTimingInput}
                   />
                 </div>
                 <div className={style["form-group"]}>
@@ -167,9 +184,11 @@ export default function BookOwn() {
                   <input
                     id={style.datetime}
                     type="datetime-local"
-                    name="datetime"
+                    name="end"
                     label="Booking Timings"
-                    value={Date.now()}
+                    value={formData.dualTrip.end || Date.now()}
+                    onChange={handleDualTripTimingInput}
+
                   />
                 </div>
               </div>
@@ -183,6 +202,7 @@ export default function BookOwn() {
                 size="small"
                 sx={{ width: "630px" }}
                 name="reference"
+                value={formData.reference || " "}
                 onChange={handleFormChange}
               />
             </div>
@@ -197,6 +217,7 @@ export default function BookOwn() {
                   label="No of People"
                   sx={{ width: "630px" }}
                   name="no_of_ppl"
+                  value={1}
                   onChange={handleFormChange}
                 >
                   <MenuItem value="">
@@ -207,46 +228,34 @@ export default function BookOwn() {
                   <MenuItem value={3}>3</MenuItem>
                   <MenuItem value={4}>4</MenuItem>
                 </Select>
-                <FormHelperText>Required</FormHelperText>
               </FormControl>
             </div>
 
             <div className={style["form-group"]}>
-              <FormGroup>
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Check Availbility of The Vehicle"
-                />
-              </FormGroup>
-              <br />
-              <Button variant="outlined">Check</Button>
-            </div>
-            <div className={style["form-group"]}>
-              <h4> Upload Proof Of Acceptance of Ride </h4>
               <Button
-                component="label"
-                role={undefined}
-                variant="outlined"
-                tabIndex={-1}
-                // startIcon={<CloudUploadIcon />}
-              >
-                Upload files
-                {/* <VisuallyHiddenInput
+                  component="label"
+                  role={undefined}
+                  variant="outlined"
+                  tabIndex={-1}
+                  sx={{width: '40%'}}
+                >     
+                Upload Proof Of Reference   
+                <input
                   type="file"
-                  onChange={(event) => console.log(event.target.files)}
-                  multiple
-                /> */}
+                  onChange={handleFileUpload}
+                  name="image"
+                  hidden
+                />
               </Button>
             </div>
           </div>
             <div className={style["form-group"]}>
-              <hr />
-              <Button type="submit" variant="contained" color="primary">
+              <Button type="submit" variant="contained" color="primary" sx={{width: '40%'}}>
                 Submit
               </Button>
             </div>
         </form>
-        {errors && <h1>{errors}</h1>}
+        {errors && <h1>{errors.message}</h1>}
       </div>
     </>
   );

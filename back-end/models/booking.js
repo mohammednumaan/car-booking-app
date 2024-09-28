@@ -9,12 +9,11 @@ const BookingSchema = new Scheme({
   pickLoc: { type: String, required: true },
   dropLoc: { type: String, required: true },
 
-  arrival: { type: String, default: null},
-  departure: { type: String, default: null},
+  dualTrip: {start: String, end: String, default: {}},
 
   reference: { type: String, required: true },
   no_of_ppl: { type: Number, required: true },
-  uploadStr: { type: String, required: true}
+  img: { type: String, required: true, default: " "}
 
 
 });

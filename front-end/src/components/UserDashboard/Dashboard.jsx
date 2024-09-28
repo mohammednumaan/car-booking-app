@@ -1,4 +1,4 @@
-import { AccountBox, BookOnlineRounded, CarRentalRounded, CollectionsBookmarkRounded, DashboardCustomizeOutlined, DashboardRounded, HistoryEduRounded, HistoryRounded, LoginTwoTone, ManageAccountsRounded, PersonOutlineRounded, PersonRounded } from "@mui/icons-material";
+import { AccountBox, BookOnlineRounded, CarRentalRounded, CollectionsBookmarkRounded, DashboardCustomizeOutlined, DashboardRounded, DocumentScanner, HistoryEduRounded, HistoryRounded, LoginTwoTone, ManageAccountsRounded, PersonOutlineRounded, PersonRounded } from "@mui/icons-material";
 import { AppProvider, DashboardLayout } from "@toolpad/core"
 import { Box, createTheme, Typography } from "@mui/material";
 import './Dashboard.css'
@@ -32,6 +32,11 @@ export default function PrimaryComponent({children}){
         segment: 'history',
         title: 'History',
         icon: <HistoryRounded />,
+      },
+      {
+        segment: 'document',
+        title: 'Download',
+        icon: <DocumentScanner />,
       },
       {
         kind: 'divider'

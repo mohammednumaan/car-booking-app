@@ -10,6 +10,10 @@ import BookOwn from "./components/Booking/BookingOwn";
 import PrimaryComponent from "./components/UserDashboard/Dashboard";
 import Register from "./components/Login_Register/Register";
 import Login from "./components/Login_Register/Login";
+import History from "./components/History/History";
+import Account from "./components/Account/Account";
+import Document from "./components/Document/Document";
+
 
 function App() {
   let [user, setUser] = useState({ user: false });
@@ -46,9 +50,19 @@ function App() {
           path="history"
           element={<PrimaryComponent children={<History />} />}
         />
+        <Route
+          path="account"
+          element={<PrimaryComponent children={<Account />} />}
+        />
+
+        <Route
+          path="document"
+          element={<PrimaryComponent children={<Document />} />}
+        />
       </Route>
     </Routes>
   );
 }
+
 
 export default App;

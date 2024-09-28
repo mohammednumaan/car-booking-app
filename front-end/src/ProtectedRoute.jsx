@@ -1,5 +1,7 @@
 import React, { Children, useEffect, useState } from 'react';
 import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
+import { blue } from '@mui/material/colors';
 
 const ProtectedRoute = ({}) => {
 
@@ -25,7 +27,13 @@ const ProtectedRoute = ({}) => {
     return (
         <>  
             
-            {isLoading ? <h1 style={{textAlign: 'center'}}>Loading...</h1> : <Outlet />}
+            {isLoading ? 
+                <div style={{textAlign:"center",margin: 300}}>
+                    <CircularProgress />
+                    <h1 style={{color : "#90caf9"}}>Loading 
+                    </h1>
+                </div>
+            : <Outlet />}
         </>
     )
 

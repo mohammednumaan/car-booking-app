@@ -1,0 +1,44 @@
+
+.paper-content{
+    margin: 20px;
+    text-align: start;
+    display: flex;
+    justify-content: space-between;
+}
+
+.font-p {
+    font-size: medium;
+    font-weight: bold;
+    color: #90caf9;
+}
+
+
+.left-align {
+    list-style: none;
+}
+
+
+.right-align {
+    list-style: none;
+    margin-right: 10px;
+}
+
+.container{
+    border: 1px solid  #a4a3a375;
+    border-radius: 10px;
+    margin: 60px;
+    padding: 20px;
+    text-align: center;
+}
+
+
+@media (max-width:1000px) {
+    .paper-content{
+        flex-direction: column;
+        gap: 10px;
+       
+    }
+
+
+
+}

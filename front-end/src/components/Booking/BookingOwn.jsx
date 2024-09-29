@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import style from "./Booking.module.css";
 import { useState } from "react";
-const axios = require('axios');
+import axios from "axios";
 export default function BookOwn() {
 
   const [isDual, setIsDual] = useState(false);

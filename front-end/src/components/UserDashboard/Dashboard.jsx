@@ -1,14 +1,12 @@
-import { AccountBox, BookOnlineRounded, CarRentalRounded, CollectionsBookmarkRounded, DashboardCustomizeOutlined, DashboardRounded, DocumentScanner, HistoryEduRounded, HistoryRounded, LoginTwoTone, ManageAccountsRounded, PersonOutlineRounded, PersonRounded } from "@mui/icons-material";
+import { AccountBox, CarRentalRounded, DashboardCustomizeOutlined,  DocumentScanner,  HistoryRounded } from "@mui/icons-material";
 import { AppProvider, DashboardLayout } from "@toolpad/core"
-import { Box, createTheme, Typography } from "@mui/material";
+import { createTheme } from "@mui/material";
 import './Dashboard.css'
-import { useMemo, useState } from "react";
-import BookOwn from "../Booking/BookingOwn";
+
 
 export default function PrimaryComponent({children}){
     const Navigation = [
       {
-        kind: 'header',
         title: 'Your Dashboard',
       },
       {
@@ -73,15 +71,9 @@ export default function PrimaryComponent({children}){
             },
       });;
 
-      const [pathname, setPathname] = useState('/book-own');
 
-      const router = useMemo(() => {
-        return {
-          pathname,
-          searchParams: new URLSearchParams(),
-          navigate: (path) => setPathname(String(path)),
-        };
-      }, [pathname]);
+
+
 
       return (
           <div className="dashboard-container">

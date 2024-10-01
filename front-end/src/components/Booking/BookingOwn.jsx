@@ -1,10 +1,6 @@
 import {
   Button,
-  Checkbox,
   FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
@@ -14,7 +10,7 @@ import style from "./Booking.module.css";
 import { useState } from "react";
 import axios from "axios";
 export default function BookOwn() {
-
+  
   const [isDual, setIsDual] = useState(false);
   const [errors, setErrors] = useState("");
   const [formData, setFormData] = useState({
@@ -72,8 +68,8 @@ export default function BookOwn() {
     <>
       <div className="booking-own-container">
         <div className={style.header}>
-          <h1 id={style.title}>Book A Car</h1>
-          <h2>Secure your ride by filling in your details</h2>
+          <h1 className={style['title']}>Book A Car</h1>
+          <h2 className={style['title']} >Secure your ride by filling in your details</h2>
         </div>
 
         <form id={style.form} onSubmit={handleFormSubmit} method="post" encType="multipart/form-data">
@@ -111,7 +107,12 @@ export default function BookOwn() {
                 placeholder="example@example.com"
                 size="small"
                 color="#90caf9"
-                sx={{ width: "630px" }}
+                sx={{
+                  width: { xs: "270px", sm: "300px", md: "600px" },
+                  marginLeft: { xs: "10px", sm: "20px" },
+                  marginRight: { xs: "10px", sm: "20px" },
+                }}
+                xs = {{ width : "300px"}}
                 name="email"
                 onChange={handleFormChange}
 
@@ -148,7 +149,7 @@ export default function BookOwn() {
             </div>
             <div className={style["form-group"]}>
               <FormControl>
-                <InputLabel id="demo-simple-select-required-label">
+                <InputLabel id="demo-simple-select-required-label" sx={{marginLeft:"20px" }}>
                   Is it a Dual Trip?{" "}
                 </InputLabel>
                 <Select
@@ -157,7 +158,11 @@ export default function BookOwn() {
                   label="Is it a Dual Trip?"
                   name="dualTrip"
                   value={"No"}
-                  sx={{ width: "630px" }}
+                  sx={{
+                    width: { xs: "270px", sm: "300px", md: "600px" },
+                    marginLeft: { xs: "10px", sm: "20px" },
+                    marginRight: { xs: "10px", sm: "20px" },
+                  }}
                   onChange={handleDualChange}
                 >
                   <MenuItem value={"Yes"}>Yes</MenuItem>
@@ -200,7 +205,12 @@ export default function BookOwn() {
                 id="outlined-size-small"
                 placeholder="ex : Neil Mathew"
                 size="small"
-                sx={{ width: "630px" }}
+                sx={{
+                  width: { xs: "270px", sm: "300px", md: "600px" },
+                  marginLeft: { xs: "10px", sm: "20px" },
+                  marginRight: { xs: "10px", sm: "20px" },
+                }}
+
                 name="reference"
                 value={formData.reference || " "}
                 onChange={handleFormChange}
@@ -208,14 +218,18 @@ export default function BookOwn() {
             </div>
             <div className={style["form-group"]}>
               <FormControl>
-                <InputLabel id="demo-simple-select-required-label">
+                <InputLabel id="demo-simple-select-required-label" sx={{marginLeft:"20px" }}>
                   No of People{" "}
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-required-label"
                   id="demo-simple-select-required"
                   label="No of People"
-                  sx={{ width: "630px" }}
+                  sx={{
+                    width: { xs: "270px", sm: "300px", md: "600px" },
+                    marginLeft: { xs: "10px", sm: "20px" },
+                    marginRight: { xs: "10px", sm: "20px" },
+                  }}
                   name="no_of_ppl"
                   value={1}
                   onChange={handleFormChange}
@@ -237,7 +251,11 @@ export default function BookOwn() {
                   role={undefined}
                   variant="outlined"
                   tabIndex={-1}
-                  sx={{width: '40%'}}
+                  sx={{
+                    width: { xs: "270px", sm: "300px", md: "600px" },
+                    marginLeft: { xs: "10px", sm: "20px" },
+                    marginRight: { xs: "10px", sm: "20px" },
+                  }}
                 >     
                 Upload Proof Of Reference   
                 <input
@@ -250,7 +268,11 @@ export default function BookOwn() {
             </div>
           </div>
             <div className={style["form-group"]}>
-              <Button type="submit" variant="contained" color="primary" sx={{width: '40%'}}>
+              <Button type="submit" variant="contained" color="primary"      sx={{
+                  width: { xs: "270px", sm: "300px", md: "600px" },
+                  marginLeft: { xs: "10px", sm: "20px" },
+                  marginRight: { xs: "10px", sm: "20px" },
+                }}>
                 Submit
               </Button>
             </div>

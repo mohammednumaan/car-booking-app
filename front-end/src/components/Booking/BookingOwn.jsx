@@ -9,8 +9,12 @@ import {
 import style from "./Booking.module.css";
 import { useState } from "react";
 import axios from "axios";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+
 export default function BookOwn() {
-  
   const [isDual, setIsDual] = useState(false);
   const [errors, setErrors] = useState("");
   const [formData, setFormData] = useState({
@@ -19,60 +23,71 @@ export default function BookOwn() {
     email: "",
     pickLoc: "",
     dropLoc: "",
-    dualTrip: {start: "", end: ""},
+    dualTrip: { start: "", end: "" },
     reference: "",
     no_of_ppl: 1,
-    imageData: {}
-  })
+    imageData: {},
+  });
 
   const handleFileUpload = (e) => {
-    setFormData(prev => ({...prev, imageData: e.target.files[0]}));
-  }
-
+    setFormData((prev) => ({ ...prev, imageData: e.target.files[0] }));
+  };
 
   const handleFormChange = (e) => {
-    let fieldName = e.target.name
-    let fieldValue = e.target.value
-    setFormData(prev => ({...prev, [fieldName]: fieldValue}));
-  }
+    let fieldName = e.target.name;
+    let fieldValue = e.target.value;
+    setFormData((prev) => ({ ...prev, [fieldName]: fieldValue }));
+  };
 
   const handleDualChange = (e) => {
-    const value = e.target.value === 'Yes' ? true : false;
-    setIsDual(value);    
-  } 
+    const value = e.target.value === "Yes" ? true : false;
+    setIsDual(value);
+  };
 
   const handleDualTripTimingInput = (e) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
     const prevDualValue = formData.dualTrip;
-    setFormData(prev => ({...prev, dualTrip: {...prevDualValue, [fieldName]: fieldValue}}));
-  }
-
+    setFormData((prev) => ({
+      ...prev,
+      dualTrip: { ...prevDualValue, [fieldName]: fieldValue },
+    }));
+  };
 
   const handleFormSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     let data = new FormData();
-    for (let field in formData){
+    for (let field in formData) {
       data.append(field, formData[field]);
     }
-    const response = await axios.post("http://localhost:3000/booking/book", formData, {withCredentials: true, headers: formData.getHeaders()})
-    console.log(response)
+    const response = await axios.post(
+      "http://localhost:3000/booking/book",
+      formData,
+      { withCredentials: true, headers: formData.getHeaders() }
+    );
+    console.log(response);
     const jsonData = await response.json();
-    if (jsonData?.message){
-      setErrors(jsonData.message)
+    if (jsonData?.message) {
+      setErrors(jsonData.message);
     }
-  }
-
+  };
 
   return (
     <>
       <div className="booking-own-container">
         <div className={style.header}>
-          <h1 className={style['title']}>Book A Car</h1>
-          <h2 className={style['title']} >Secure your ride by filling in your details</h2>
+          <h1 className={style["title"]}>Book A Car</h1>
+          <h2 className={style["title"]}>
+            Secure your ride by filling in your details
+          </h2>
         </div>
 
-        <form id={style.form} onSubmit={handleFormSubmit} method="post" encType="multipart/form-data">
+        <form
+          id={style.form}
+          onSubmit={handleFormSubmit}
+          method="post"
+          encType="multipart/form-data"
+        >
           <div className={style["booking-form"]}>
             <div className={style["flex-row"]}>
               <div className={style["form-group"]}>
@@ -94,8 +109,6 @@ export default function BookOwn() {
                   size="small"
                   name="last"
                   onChange={handleFormChange}
-
-
                 />
               </div>
             </div>
@@ -112,11 +125,9 @@ export default function BookOwn() {
                   marginLeft: { xs: "10px", sm: "20px" },
                   marginRight: { xs: "10px", sm: "20px" },
                 }}
-                xs = {{ width : "300px"}}
+                xs={{ width: "300px" }}
                 name="email"
                 onChange={handleFormChange}
-
-
               />
             </div>
 
@@ -130,8 +141,6 @@ export default function BookOwn() {
                   name="pickLoc"
                   value={formData.pickLoc || " "}
                   onChange={handleFormChange}
-
-
                 />
               </div>
 
@@ -149,7 +158,10 @@ export default function BookOwn() {
             </div>
             <div className={style["form-group"]}>
               <FormControl>
-                <InputLabel id="demo-simple-select-required-label" sx={{marginLeft:"20px" }}>
+                <InputLabel
+                  id="demo-simple-select-required-label"
+                  sx={{ marginLeft: "20px" }}
+                >
                   Is it a Dual Trip?{" "}
                 </InputLabel>
                 <Select
@@ -171,33 +183,38 @@ export default function BookOwn() {
               </FormControl>
             </div>
 
-             {isDual &&
+            {isDual && (
               <div className={style["form-timings"]}>
                 <div className={style["form-group"]}>
-                  <h4>Arrival Timings</h4>
-                  <input
-                    id={style.datetime}
-                    type="datetime-local"
-                    name="start"
-                    label="Booking Timings"
-                    value={formData.dualTrip.start || Date.now()}
-                    onChange={handleDualTripTimingInput}
-                  />
+                  <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    sx={{
+                      width: { xs: "270px", sm: "300px", md: "600px" },
+                      marginLeft: { xs: "10px", sm: "20px" },
+                      marginRight: { xs: "10px", sm: "20px" },
+                    }}
+                  >
+                    <DemoContainer components={["DateTimePicker"]}>
+                      <DateTimePicker label="Arrival Timings" />
+                    </DemoContainer>
+                  </LocalizationProvider>
                 </div>
                 <div className={style["form-group"]}>
-                  <h4>Departure Timings</h4>
-                  <input
-                    id={style.datetime}
-                    type="datetime-local"
-                    name="end"
-                    label="Booking Timings"
-                    value={formData.dualTrip.end || Date.now()}
-                    onChange={handleDualTripTimingInput}
-
-                  />
+                  <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    sx={{
+                      width: { xs: "270px", sm: "300px", md: "600px" },
+                      marginLeft: { xs: "10px", sm: "20px" },
+                      marginRight: { xs: "10px", sm: "20px" },
+                    }}
+                  >
+                    <DemoContainer components={["DateTimePicker"]}>
+                      <DateTimePicker label="Departure Timings" />
+                    </DemoContainer>
+                  </LocalizationProvider>
                 </div>
               </div>
-            }
+            )}
 
             <div className={style["form-group"]}>
               <TextField
@@ -210,7 +227,6 @@ export default function BookOwn() {
                   marginLeft: { xs: "10px", sm: "20px" },
                   marginRight: { xs: "10px", sm: "20px" },
                 }}
-
                 name="reference"
                 value={formData.reference || " "}
                 onChange={handleFormChange}
@@ -218,7 +234,10 @@ export default function BookOwn() {
             </div>
             <div className={style["form-group"]}>
               <FormControl>
-                <InputLabel id="demo-simple-select-required-label" sx={{marginLeft:"20px" }}>
+                <InputLabel
+                  id="demo-simple-select-required-label"
+                  sx={{ marginLeft: "20px" }}
+                >
                   No of People{" "}
                 </InputLabel>
                 <Select
@@ -247,17 +266,17 @@ export default function BookOwn() {
 
             <div className={style["form-group"]}>
               <Button
-                  component="label"
-                  role={undefined}
-                  variant="outlined"
-                  tabIndex={-1}
-                  sx={{
-                    width: { xs: "270px", sm: "300px", md: "600px" },
-                    marginLeft: { xs: "10px", sm: "20px" },
-                    marginRight: { xs: "10px", sm: "20px" },
-                  }}
-                >     
-                Upload Proof Of Reference   
+                component="label"
+                role={undefined}
+                variant="outlined"
+                tabIndex={-1}
+                sx={{
+                  width: { xs: "270px", sm: "300px", md: "600px" },
+                  marginLeft: { xs: "10px", sm: "20px" },
+                  marginRight: { xs: "10px", sm: "20px" },
+                }}
+              >
+                Upload Proof Of Reference
                 <input
                   type="file"
                   onChange={handleFileUpload}
@@ -267,15 +286,20 @@ export default function BookOwn() {
               </Button>
             </div>
           </div>
-            <div className={style["form-group"]}>
-              <Button type="submit" variant="contained" color="primary"      sx={{
-                  width: { xs: "270px", sm: "300px", md: "600px" },
-                  marginLeft: { xs: "10px", sm: "20px" },
-                  marginRight: { xs: "10px", sm: "20px" },
-                }}>
-                Submit
-              </Button>
-            </div>
+          <div className={style["form-group"]}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              sx={{
+                width: { xs: "270px", sm: "300px", md: "600px" },
+                marginLeft: { xs: "10px", sm: "20px" },
+                marginRight: { xs: "10px", sm: "20px" },
+              }}
+            >
+              Submit
+            </Button>
+          </div>
         </form>
         {errors && <h1>{errors.message}</h1>}
       </div>

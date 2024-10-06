@@ -27,23 +27,39 @@ export default function Document() {
           id="outlined-basic"
           label="Full Name"
           variant="outlined"
-          sx={{ width: "600px" }}
+          sx={{
+            width: { xs: "270px", sm: "300px", md: "600px" },
+            marginLeft: { xs: "10px", sm: "20px" },
+            marginRight: { xs: "10px", sm: "20px" },
+          }}
         />
         <TextField
           id="outlined-basic"
           label="Department"
           variant="outlined"
-          sx={{ width: "600px" }}
+          sx={{
+            width: { xs: "270px", sm: "300px", md: "600px" },
+            marginLeft: { xs: "10px", sm: "20px" },
+            marginRight: { xs: "10px", sm: "20px" },
+          }}
         />
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={["DateTimePicker"]}>
+          <DemoContainer components={["DateTimePicker"]} sx={{
+                  width: { xs: "270px", sm: "300px", md: "600px" },
+                  marginLeft: { xs: "10px", sm: "20px" },
+                  marginRight: { xs: "10px", sm: "20px" },
+                }}>
             <DateTimePicker label="Required Time and Date " />
           </DemoContainer>
         </LocalizationProvider>
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={["DateTimePicker"]}>
+          <DemoContainer components={["DateTimePicker"]}sx={{
+                  width: { xs: "270px", sm: "300px", md: "600px" },
+                  marginLeft: { xs: "10px", sm: "20px" },
+                  marginRight: { xs: "10px", sm: "20px" },
+                }} >
             <DateTimePicker label="Returning Time and Date" />
           </DemoContainer>
         </LocalizationProvider>
@@ -51,7 +67,11 @@ export default function Document() {
           id="outlined-basic"
           label="Place of visit"
           variant="outlined"
-          sx={{ width: "600px" }}
+          sx={{
+            width: { xs: "270px", sm: "300px", md: "600px" },
+            marginLeft: { xs: "10px", sm: "20px" },
+            marginRight: { xs: "10px", sm: "20px" },
+          }}
         />
         <Select
           labelId="demo-simple-select-label"
@@ -59,6 +79,11 @@ export default function Document() {
           s
           value={10}
           label="Car"
+          sx={{
+            width: { xs: "270px", sm: "300px", md: "600px" },
+            marginLeft: { xs: "10px", sm: "20px" },
+            marginRight: { xs: "10px", sm: "20px" },
+          }}
         >
           <MenuItem value={10}>Car</MenuItem>
           <MenuItem value={20}>Jeep</MenuItem>
@@ -72,6 +97,8 @@ export default function Document() {
           color="primary"
           sx={{
             width: { xs: "270px", sm: "300px", md: "600px" },
+            marginLeft: { xs: "10px", sm: "20px" },
+            marginRight: { xs: "10px", sm: "20px" },
           }}
         >
           Download PDF

@@ -61,14 +61,13 @@ export default function BookOwn() {
       data.append(field, formData[field]);
     }
 
-  
     const response = await axios.post(
       "http://localhost:3000/booking/book",
       data,
       { withCredentials: true }
     );
     if (response.booked) {
-      alert("Booked")
+      alert("Booked");
     }
   };
 
@@ -184,32 +183,27 @@ export default function BookOwn() {
             </div>
 
             {isDual && (
-              <div className={style["form-timings"]}>
+              <div
+                className={style["form-timings"]}
+                style={{ marginLeft: "20px", marginRight: "20px" }}
+              >
                 <div className={style["form-group"]}>
-                  <LocalizationProvider
-                    dateAdapter={AdapterDayjs}
-                    sx={{
-                      width: { xs: "270px", sm: "300px", md: "600px" },
-                      marginLeft: { xs: "10px", sm: "20px" },
-                      marginRight: { xs: "10px", sm: "20px" },
-                    }}
-                  >
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DateTimePicker"]}>
-                      <DateTimePicker onChange={handleDualTripTimingInput} label="Arrival Timings" />
+                      <DateTimePicker
+                        onChange={handleDualTripTimingInput}
+                        label="Arrival Timings"
+                      />
                     </DemoContainer>
                   </LocalizationProvider>
                 </div>
                 <div className={style["form-group"]}>
-                  <LocalizationProvider
-                    dateAdapter={AdapterDayjs}
-                    sx={{
-                      width: { xs: "270px", sm: "300px", md: "600px" },
-                      marginLeft: { xs: "10px", sm: "20px" },
-                      marginRight: { xs: "10px", sm: "20px" },
-                    }}
-                  >
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DateTimePicker"]}>
-                      <DateTimePicker onChange={handleDualChange} label="Departure Timings" />
+                      <DateTimePicker
+                        onChange={handleDualChange}
+                        label="Departure Timings"
+                      />
                     </DemoContainer>
                   </LocalizationProvider>
                 </div>
@@ -280,7 +274,7 @@ export default function BookOwn() {
                   type="file"
                   onChange={handleFileUpload}
                   name="imageData"
-                  // hidden
+                  hidden
                 />
               </Button>
             </div>

@@ -1,12 +1,21 @@
 const express = require('express');
 const bookingController = require('../controllers/bookingController');
 const router = express.Router();
+const multer = require("multer");
+const path = require("path");
 
-const multer = require('multer')
-const upload = multer({ dest: 'images/' })
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'images/')
+    },
+    filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
 
-router.post('/book', upload.single("image"), bookingController.book_post)
-router.get('/hi', (req, res) => console.log('hiiiii'))
+const upload = multer({storage})
+
+router.post('/book', bookingController.book_post)
 
 
 module.exports = router;

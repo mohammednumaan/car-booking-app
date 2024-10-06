@@ -60,15 +60,15 @@ export default function BookOwn() {
     for (let field in formData) {
       data.append(field, formData[field]);
     }
+
+  
     const response = await axios.post(
       "http://localhost:3000/booking/book",
-      formData,
-      { withCredentials: true, headers: formData.getHeaders() }
+      data,
+      { withCredentials: true }
     );
-    console.log(response);
-    const jsonData = await response.json();
-    if (jsonData?.message) {
-      setErrors(jsonData.message);
+    if (response.booked) {
+      alert("Booked")
     }
   };
 
@@ -195,7 +195,7 @@ export default function BookOwn() {
                     }}
                   >
                     <DemoContainer components={["DateTimePicker"]}>
-                      <DateTimePicker label="Arrival Timings" />
+                      <DateTimePicker onChange={handleDualTripTimingInput} label="Arrival Timings" />
                     </DemoContainer>
                   </LocalizationProvider>
                 </div>
@@ -209,7 +209,7 @@ export default function BookOwn() {
                     }}
                   >
                     <DemoContainer components={["DateTimePicker"]}>
-                      <DateTimePicker label="Departure Timings" />
+                      <DateTimePicker onChange={handleDualChange} label="Departure Timings" />
                     </DemoContainer>
                   </LocalizationProvider>
                 </div>
@@ -267,7 +267,6 @@ export default function BookOwn() {
             <div className={style["form-group"]}>
               <Button
                 component="label"
-                role={undefined}
                 variant="outlined"
                 tabIndex={-1}
                 sx={{
@@ -280,8 +279,8 @@ export default function BookOwn() {
                 <input
                   type="file"
                   onChange={handleFileUpload}
-                  name="image"
-                  hidden
+                  name="imageData"
+                  // hidden
                 />
               </Button>
             </div>

@@ -13,7 +13,7 @@ import Login from "./components/Login_Register/Login";
 import History from "./components/History/History";
 import Account from "./components/Account/Account";
 import Document from "./components/Document/Document";
-
+import Contact from "./components/Contact/Contact";
 
 function App() {
   let [user, setUser] = useState({ user: false });
@@ -50,14 +50,19 @@ function App() {
           path="history"
           element={<PrimaryComponent children={<History />} />}
         />
-        <Route
+        <Route 
           path="account"
-          element={<PrimaryComponent children={<Account />} />}
+          element={<PrimaryComponent children={<Account/>} />}
         />
 
         <Route
           path="document"
           element={<PrimaryComponent children={<Document />} />}
+        />
+
+        <Route
+          path="contact"
+          element={<PrimaryComponent children={<Contact />} />}
         />
       </Route>
     </Routes>

@@ -16,7 +16,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 export default function BookOwn() {
   const [isDual, setIsDual] = useState(false);
-  const [errors, setErrors] = useState("");
+  const [errors, setErrors] = useState([]);
   const [formData, setFormData] = useState({
     first: "",
     last: "",
@@ -67,7 +67,9 @@ export default function BookOwn() {
       { withCredentials: true }
     );
     if (response.booked) {
-      alert("Booked");
+      alert("Booked!")
+    } else{
+      setErrors(response.errors)
     }
   };
 
@@ -294,7 +296,15 @@ export default function BookOwn() {
             </Button>
           </div>
         </form>
-        {errors && <h1>{errors.message}</h1>}
+        {errors.length !== 0 && errors.map(err => ( 
+
+          <>
+            <ul>
+              <li>{err.message}</li>
+            </ul>
+          </>
+        )
+        )}
       </div>
     </>
   );

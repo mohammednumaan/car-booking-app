@@ -75,7 +75,18 @@ export default function Register() {
                 type="text"
                 required
               />
-              <label htmlFor="username">Enter Staff ID</label>
+              <label htmlFor="staffID">Enter Staff ID</label>
+            </div>
+            <div className="input-field">
+              <input
+                onChange={handleFormChange}
+                value={formData.phonenumber}
+                id="phonenumber"
+                name="phonenumber"
+                type="tel"
+                required
+              />
+              <label htmlFor="phonenumber">Enter Phone Number</label>
             </div>
             <button type="submit">Register</button>
             <div className="Create-account">

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const Scheme = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-const BookingSchema = new Scheme({
+const BookingSchema = new Schema({
   first: { type: String, required: true },
   last: { type: String, required: true },
   email: { type: String, required: true },
@@ -13,7 +13,12 @@ const BookingSchema = new Scheme({
 
   reference: { type: String, required: true },
   no_of_ppl: { type: Number, required: true },
-  img: { type: String, required: true, default: " "}
+  img: { type: String, required: true, default: " "},
+
+  user: {type: Schema.Types.ObjectId, required: true},
+  isOnGoing: {type: Boolean, default: true},
+
+  driver: {type: String, default: null}
 
 
 });

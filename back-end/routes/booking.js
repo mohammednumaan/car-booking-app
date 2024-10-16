@@ -1,21 +1,20 @@
+// imports
 const express = require('express');
 const bookingController = require('../controllers/bookingController');
-const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, 'images/')
-    },
-    filename: function(req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
-});
+// initializing a router to handle similar routes
+// in this case its for the '/booking' prefix route
+const router = express.Router();
 
-const upload = multer({storage})
+// defining routes for the '/book' prefix route
 
+// defines a '/book' route to process the form
+// and initiate a booking via a POST request from the client
 router.post('/book', bookingController.book_post)
+router.get('/history', bookingController.booking_history_get)
+
 
 
 module.exports = router;

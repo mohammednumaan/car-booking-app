@@ -24,8 +24,9 @@ export default function Login(){
             headers: {'Content-Type': 'application/json'},
             credentials: 'include'
         });
+        console.log(response)
         const jsonData = await response.json();
-        console.log(jsonData)
+        // console.log(jsonData)
         if (jsonData.login){
             navigate('/dashboard', {state: {user: jsonData.login}})
         }

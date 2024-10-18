@@ -4,8 +4,28 @@ import { AppProvider, DashboardLayout } from "@toolpad/core"
 import { createTheme } from "@mui/material";
 import './Dashboard.css'
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const customTheme = createTheme({
+  cssVariables: {
+    colorSchemeSelector: 'data-toolpad-color-scheme',
+  },
+  colorSchemes: { light: true, dark: true },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 600,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+});
+
 export default function PrimaryComponent({children}){
+
   const [path, setPath] = useState('/dashboard');
+  const navigate = useNavigate();
   
 
   const Navigation = [
@@ -61,36 +81,17 @@ export default function PrimaryComponent({children}){
     }
   ];
 
-  const navigate = (pathname) => {
+
+  const navigateRouter = (pathname) => {
     setPath(pathname);
-    return <Link to={pathname} />;
+    navigate(pathname)
   }
   
   const router = useMemo(() => ({
     pathname: path, 
     searchParams: new URLSearchParams(),
-    navigate: navigate
+    navigate: navigateRouter
   }), [path])
-
-  const customTheme = createTheme({
-    cssVariables: {
-      colorSchemeSelector: 'data-toolpad-color-scheme',
-    },
-
-    colorSchemes: { light: true, dark: true },
-        breakpoints: {
-          values: {
-            xs: 0,
-            sm: 600,
-            md: 600,
-            lg: 1200,
-            xl: 1536,
-          },
-        },
-  });;
-
-  
-
 
   return (
     <div className="dashboard-container">
@@ -98,6 +99,7 @@ export default function PrimaryComponent({children}){
         navigation={Navigation}
         branding={{ title: 'PSG Cars' }}
         theme={customTheme}
+        router={router}
       >
         <DashboardLayout>
             {children}

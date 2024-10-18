@@ -14,6 +14,10 @@ import History from "./components/History/History";
 import Account from "./components/Account/Account";
 import Document from "./components/Document/Document";
 import Contact from "./components/Contact/Contact";
+import BookingDecision from "./components/BookingDecision/BookingDecision";
+import OngoingBookings from "./components/OngoingBookings/OngoingBookings";
+import ContactMessages from "./components/ContactMessages/ContactMessages";
+import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 
 function App() {
   let [user, setUser] = useState({ user: false });
@@ -61,8 +65,21 @@ function App() {
         />
 
         <Route
-          path="contact"
-          element={<PrimaryComponent children={<Contact />} />}
+          path="admin-dashboard"
+          element={<AdminDashboard children={<AdminDashboard />} />}
+        />
+
+        <Route
+          path="booking-decision"
+          element={<AdminDashboard children={<BookingDecision />} />}
+        />
+        <Route
+          path="ongoing-bookings"
+          element={<AdminDashboard children={<OngoingBookings />} />}
+        />
+        <Route
+          path="contact-message"
+          element={<AdminDashboard children={<ContactMessages />} />}
         />
       </Route>
     </Routes>

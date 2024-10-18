@@ -68,11 +68,13 @@ module.exports.book_post = [
 // a simple controller function to handle 'booking history' GET request
 module.exports.booking_history_get = asyncHandler(async (req, res, next) => {
   const bookingHistory = await Booking.find({user: req.user._id, isOnGoing: true});
-  if (!bookingHistory.length){
-    res.json({history: []});
-  } else{
-    res.json({history: bookingHistory});
-  }
+  res.json({history: bookingHistory});
+})
+
+// a simple controller function to handle 'on going bookings' GET request
+module.exports.on_going_bookings_get = asyncHandler(async (req, res, next) => {
+  const ongoingBookings = await Booking.find({isOnGoing: true});
+  return res.json({bookings: ongoingBookings})
 })
 
 // a simple controller function to handle 'confirm booking' POST request

@@ -3,6 +3,7 @@ const User = require("../models/users");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const { genPassword } = require("../passport/passportUtils");
+const passport = require("passport");
 
 // a list of middlewares to handle a 'register' POST request
 module.exports.register_post = [
@@ -56,7 +57,9 @@ module.exports.login_post = [
       req.login(user, next);
     })(req, res, next);
   },
-  (req, res, next) => res.send({login: true, user:  req.user}),
+  (req, res, next) => {
+    res.json({login: true, user:  req.user})
+  },
 ];
 
 // a simple middlewate function to handle an 'authenticate' POST request

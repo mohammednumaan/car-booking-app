@@ -17,6 +17,7 @@ const BookingSchema = new Schema({
 
   user: {type: Schema.Types.ObjectId, required: true},
   isOnGoing: {type: Boolean, default: true},
+  bookingStatus: {type: Boolean, default: false},
 
   driver: {type: String, default: null}
 

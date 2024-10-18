@@ -7,8 +7,8 @@ const userController = require('../controllers/userController');
 const router = express.Router();
 
 // defining routes on the router object
+router.get('/authenticated', userController.authenticate)
 router.post('/register', userController.register_post)
 router.post('/login', userController.login_post)
-router.get('/authenticated', userController.authenticate)
 
 module.exports = router;

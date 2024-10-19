@@ -1,56 +1,49 @@
 import React from "react";
 import {
   Typography,
-  Card,
-  Box,
-  Stack,
+  Container,
+  Toolbar, // Import Toolbar here
 } from "@mui/material";
-
+import style from "./ContactMessages.module.css";
 
 function ContactMessages() {
-
   return (
-    <>
-      <h3 style={{ color: "lightblue", textAlign: "center" }}>
-        Messages
-      </h3>
-
-      <h3
-        style={{
-          color: "lightblue",
-          fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-        }}
+    <div className={style["content"]}>
+      <Typography
+        variant="h4"
+        gutterBottom
+        component="h2"
+        sx={{ textAlign: "center" }}
       >
-        Inbox
-      </h3>
-      <Card
-        variant="outlined"
-        sx={{
-          maxWidth: 360,
-          color: "lightblue",
-          backgroundColor: "#121212",
-          borderStyle: "solid",
-          borderColor: "lightblue",
-        }}
-      >
-        <Box sx={{ p: 2 }}>
-          <Stack
-            direction="row"
-            sx={{ justifyContent: "space-between", alignItems: "center" }}
-          >
-            <Typography gutterBottom variant="h5" component="div">
-              My Name
-            </Typography>
-          </Stack>
-          <p>myid@mail.com</p>
-
-          <hr />
-          <Typography variant="body2" sx={{ color: "white" }}>
-            This is my message.
+        Inbox Messages
+      </Typography>
+      <hr
+        style={{ width: "600px", margin: "0 auto", border: "1px solid grey" }}
+      />
+      <br />
+      <div className={style["message-card"]}>
+        <li>
+          <span className={style["color"]}> Name: </span> Risheekesh{" "}
+        </li>
+        <br />
+        <li>
+          <span className={style["color"]}> Email: </span>{" "}
+          risheekeshkg@gmail.com
+        </li>
+        <br />
+        <li><span className={style["color"]}>Message :</span></li>
+        <br />
+        <Container sx={{}}>
+          <Typography sx={{ marginBottom: 2 }}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
+            dolor purus non enim praesent elementum facilisis leo vel. Risus at
+            ultrices mi tempus imperdiet.
           </Typography>
-        </Box>
-      </Card>
-    </>
+        </Container>
+      </div>
+    </div>
   );
 }
+
 export default ContactMessages;

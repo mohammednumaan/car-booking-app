@@ -1,0 +1,18 @@
+.message-card {
+    width: 100%;
+    padding: 20px;
+    border: 1px solid rgb(0, 191, 255);
+}
+
+.content {
+    margin-left: auto;
+    margin-right: auto;
+
+    width: 80%;
+    margin-top: 100px;
+}
+
+
+.color {
+    color: rgb(0, 191, 255);
+}

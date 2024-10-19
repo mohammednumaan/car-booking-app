@@ -3,32 +3,9 @@ import ContactPageIcon from "@mui/icons-material/ContactPage";
 import { AppProvider, DashboardLayout } from "@toolpad/core";
 import { DocumentScanner } from "@mui/icons-material";
 import { createTheme } from "@mui/material";
-import "./AdminDashboard.module.css";
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import "./AdminDashboard.css";
 
-const customTheme = createTheme({
-  cssVariables: {
-    colorSchemeSelector: "data-toolpad-color-scheme",
-  },
-
-  colorSchemes: { light: true, dark: true },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 600,
-      lg: 1200,
-      xl: 1536,
-    },
-  },
-});
-
-export default function AdminDashboard({ children }) {
-
-  const [path, setPath] = useState('/dashboard');
-  const navigate = useNavigate();
-
+export default function PrimaryComponent({ children }) {
   const Navigation = [
     {
       title: "Your Dashboard",
@@ -41,12 +18,12 @@ export default function AdminDashboard({ children }) {
       title: "Options ",
     },
     {
-      segment: "booking-decision",
+      segment: "Booking-Decision",
       title: "Booking Decision",
       icon: <DashboardCustomizeOutlined />,
     },
     {
-      segment: "ongoing-bookings",
+      segment: "Ongoing-Bookings",
       title: "On-Going Bookings",
       icon: <DocumentScanner />,
     },
@@ -58,7 +35,7 @@ export default function AdminDashboard({ children }) {
       title: "Messages",
     },
     {
-      segment: "contact-message",
+      segment: "Contact-Message",
       title: "Contact Messages",
       icon: <ContactPageIcon />,
     },
@@ -67,16 +44,22 @@ export default function AdminDashboard({ children }) {
     },
   ];
 
-  const navigateRouter = (pathname) => {
-    setPath(pathname);
-    navigate(pathname)
-  }
-  
-  const router = useMemo(() => ({
-    pathname: path, 
-    searchParams: new URLSearchParams(),
-    navigate: navigateRouter
-  }), [path])
+  const customTheme = createTheme({
+    cssVariables: {
+      colorSchemeSelector: "data-toolpad-color-scheme",
+    },
+
+    colorSchemes: { light: true, dark: true },
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 600,
+        lg: 1200,
+        xl: 1536,
+      },
+    },
+  });
 
   return (
     <div className="dashboard-container">
@@ -87,7 +70,7 @@ export default function AdminDashboard({ children }) {
           logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" />,
         }}
         theme={customTheme}
-        router={router}
+        // router={router}
       >
         <DashboardLayout>{children}</DashboardLayout>
       </AppProvider>

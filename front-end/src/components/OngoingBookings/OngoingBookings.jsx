@@ -10,7 +10,6 @@ import {
   TableRow,
 } from "@mui/material";
 
-
 function OngoingBookings() {
   const columns = [
     { id: "name", label: "Name", minWidth: 170 },
@@ -85,11 +84,16 @@ function OngoingBookings() {
   return (
     <>
       <h3 style={{ color: "lightblue", textAlign: "center" }}>
-        Ongoing Booking
+        On-Going Booking Requests
       </h3>
-
       <Paper
-        sx={{ width: "100%", borderStyle: "solid", borderColor: "lightblue" }}
+        sx={{
+          width: "90%",
+          borderStyle: "solid",
+          borderColor: "lightblue",
+          marginRight: "auto",
+          marginLeft: "auto",
+        }}
       >
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -103,6 +107,7 @@ function OngoingBookings() {
                       minWidth: column.minWidth,
                       color: "lightblue",
                       backgroundColor: "#121212",
+                      fontWeight: "bolder",
                     }}
                   >
                     {column.label}
@@ -110,7 +115,7 @@ function OngoingBookings() {
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody sx={{ width: "80%" }}>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {

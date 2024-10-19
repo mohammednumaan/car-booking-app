@@ -38,7 +38,19 @@ const ProtectedRoute = ({}) => {
                <LinearProgress
                  sx={{
                    margin: "auto",
-                   width: { xs: "80%", sm: "60%", md: "40%" }, // Responsive width for the progress bar
+                   width: { xs: "80%", sm: "60%", md: "40%" },
+                   fontFamily: [
+                    '-apple-system',
+                    'BlinkMacSystemFont',
+                    '"Segoe UI"',
+                    'Roboto',
+                    '"Helvetica Neue"',
+                    'Arial',
+                    'sans-serif',
+                    '"Apple Color Emoji"',
+                    '"Segoe UI Emoji"',
+                    '"Segoe UI Symbol"',
+                  ].join(',') // Responsive width for the progress bar
                  }}
                />
                <h1

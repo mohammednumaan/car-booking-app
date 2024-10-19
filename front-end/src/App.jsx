@@ -13,7 +13,6 @@ import Login from "./components/Login_Register/Login";
 import History from "./components/History/History";
 import Account from "./components/Account/Account";
 import Document from "./components/Document/Document";
-import Contact from "./components/Contact/Contact";
 import BookingDecision from "./components/BookingDecision/BookingDecision";
 import OngoingBookings from "./components/OngoingBookings/OngoingBookings";
 import ContactMessages from "./components/ContactMessages/ContactMessages";
@@ -41,47 +40,52 @@ function App() {
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
 
-      <Route element={<ProtectedRoute user={user.user} />}>
-        <Route
-          path="dashboard"
-          element={<PrimaryComponent children={<Dashboard />} />}
-        />
-        <Route
-          path="book-own"
-          element={<PrimaryComponent children={<BookOwn />} />}
-        />
-        <Route
-          path="history"
-          element={<PrimaryComponent children={<History />} />}
-        />
-        <Route 
-          path="account"
-          element={<PrimaryComponent children={<Account/>} />}
-        />
+      {user.admin ? (
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="admin-dashboard"
+            element={<AdminDashboard children={<AdminDashboard />} />}
+          />
 
-        <Route
-          path="document"
-          element={<PrimaryComponent children={<Document />} />}
-        />
+          <Route
+            path="booking-decision"
+            element={<AdminDashboard children={<BookingDecision />} />}
+          />
+          <Route
+            path="ongoing-bookings"
+            element={<AdminDashboard children={<OngoingBookings />} />}
+          />
+          <Route
+            path="contact-message"
+            element={<AdminDashboard children={<ContactMessages />} />}
+          />
+        </Route>
+      ) : (
+        <Route element={<ProtectedRoute user={user.user} />}>
+          <Route
+            path="dashboard"
+            element={<PrimaryComponent children={<Dashboard />} />}
+          />
+          <Route
+            path="book-own"
+            element={<PrimaryComponent children={<BookOwn />} />}
+          />
+          <Route
+            path="history"
+            element={<PrimaryComponent children={<History />} />}
+          />
+          <Route 
+            path="account"
+            element={<PrimaryComponent children={<Account/>} />}
+          />
 
-        <Route
-          path="admin-dashboard"
-          element={<AdminDashboard children={<AdminDashboard />} />}
-        />
+          <Route
+            path="document"
+            element={<PrimaryComponent children={<Document />} />}
+          />
+          </Route>
 
-        <Route
-          path="booking-decision"
-          element={<AdminDashboard children={<BookingDecision />} />}
-        />
-        <Route
-          path="ongoing-bookings"
-          element={<AdminDashboard children={<OngoingBookings />} />}
-        />
-        <Route
-          path="contact-message"
-          element={<AdminDashboard children={<ContactMessages />} />}
-        />
-      </Route>
+      )}
     </Routes>
   );
 }

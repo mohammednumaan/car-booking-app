@@ -21,32 +21,33 @@ export default function History() {
   console.log(history)
   return (
     <>
-      {history.length && (
+      {history.length !== 0 ? (
         <>
           {history.map((data, index) => (
-            <>
-              <div className={style["container"]}>
-                <p className={style["font-p"]}> Booking #{index + 1}</p>
-                <Divider variant="middle" component="div" />
-                <ul className={style["paper-content"]}>
-                  <div className={style["li-container"]}>
-                    <li>Departure: {data.pickLoc}</li>
-                    <li style={{color: data.isOnGoing ? 'yellow' : 'red'}}>Status of Ride: {data.isOnGoing ? 'In Progress' : 'Completed'}</li>
-                  </div>
-                  <div className={style["li-container"]}>
-                    <span style={{ whiteSpace: "nowrap" }}>
-                      <li>Date: 2022-02-20</li>
-                    </span>
-                    <li>Driver Name: {!data.driver ? "Not Assigned" : data.driver}</li>
-                  </div>
-                </ul>
-              </div>
-            </>
+            
+            <div className={style["container"]}>
+              <p className={style["font-p"]}> Booking #{index + 1}</p>
+              <Divider variant="middle" component="div" />
+              <ul className={style["paper-content"]}>
+                <div className={style["li-container"]}>
+                  <li>Departure: {data.pickLoc}</li>
+                  <li style={{color: data.isOnGoing ? 'yellow' : 'red'}}>Status of Ride: {data.isOnGoing ? 'In Progress' : 'Completed'}</li>
+                </div>
+                <div className={style["li-container"]}>
+                  <span style={{ whiteSpace: "nowrap" }}>
+                    <li>Date: 2022-02-20</li>
+                  </span>
+                  <li>Driver Name: {!data.driver ? "Not Assigned" : data.driver}</li>
+                </div>
+              </ul>
+            </div>
             
           ))}
         </>
 
-      )}
+      ) : 
+        <h1 style={{textAlign: 'center'}}>You Have No Bookings Yet!</h1>
+      }
     </>
   );
 }

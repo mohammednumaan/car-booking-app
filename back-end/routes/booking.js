@@ -1,8 +1,6 @@
 // imports
 const express = require('express');
 const bookingController = require('../controllers/bookingController');
-const multer = require("multer");
-const path = require("path");
 
 // initializing a router to handle similar routes
 // in this case its for the '/booking' prefix route
@@ -15,7 +13,6 @@ const router = express.Router();
 router.post('/book', bookingController.book_post)
 router.post('/confirm-booking', bookingController.confirm_booking_post)
 router.get('/history', bookingController.booking_history_get)
-
 
 
 module.exports = router;

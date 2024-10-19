@@ -13,8 +13,10 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { useNavigate } from "react-router-dom";
 
 export default function BookOwn() {
+  const navigate = useNavigate();
   const [isDual, setIsDual] = useState(false);
   const [errors, setErrors] = useState([]);
   const [formData, setFormData] = useState({
@@ -39,8 +41,8 @@ export default function BookOwn() {
     setFormData((prev) => ({ ...prev, [fieldName]: fieldValue }));
   };
 
-  const handleDualChange = (e) => {
-    const value = e.target.value === "Yes" ? true : false;
+  const handleDualChange = () => {
+    const value = !isDual ? true : false;
     setIsDual(value);
   };
 
@@ -67,7 +69,7 @@ export default function BookOwn() {
       { withCredentials: true }
     );
     if (response.booked) {
-      alert("Booked!")
+      navigate('/history')
     } else{
       setErrors(response.errors)
     }
@@ -170,7 +172,7 @@ export default function BookOwn() {
                   id="demo-simple-select-required"
                   label="Is it a Dual Trip?"
                   name="dualTrip"
-                  value={"No"}
+                  value={!isDual ? "No" : "Yes"}
                   sx={{
                     width: { xs: "270px", sm: "300px", md: "600px" },
                     marginLeft: { xs: "10px", sm: "20px" },
@@ -296,7 +298,7 @@ export default function BookOwn() {
             </Button>
           </div>
         </form>
-        {errors.length !== 0 && errors.map(err => ( 
+        {errors && errors.length !== 0 && errors.map(err => ( 
 
           <>
             <ul>

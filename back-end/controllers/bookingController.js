@@ -1,12 +1,13 @@
 // imports
 const asyncHandler = require("express-async-handler");
+const path = require("path");
 const Booking = require("../models/booking");
 const User = require("../models/users");
-
-const multer = require('multer')
-const path = require("path");
 const { body, validationResult } = require("express-validator");
 
+// configuring multer to handle multipart formdata (images)
+// and upload those images to the /uploads folder in the root
+const multer = require('multer')
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/')
@@ -16,6 +17,8 @@ const storage = multer.diskStorage({
   }
 });
 
+// initialize the multer object with which we can successfully upload 
+// images to our server
 const upload = multer({storage, limits: {fileSize: 10 * 1024 * 1024}})
 
 // a list of middlewares to handle a 'book' POST request
@@ -29,14 +32,17 @@ module.exports.book_post = [
   .escape(),
   body("email")
   .trim()
+  .isEmail()
+  .withMessage("Please Enter a Valid Email!")
   .escape(),
   body("pickLoc")
   .trim()
+  .notEmpty()
   .escape(),
   body("dropLoc")
   .trim()
+  .notEmpty()
   .escape(),
-  
   body("reference")
   .trim()
   .escape(),

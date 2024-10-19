@@ -1,15 +1,20 @@
+// configuring dotenv to populate the 'process' object to have
+// access to environment variables 
 require("dotenv").config({path: "../.env"});
+
+// imports
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+// router object imports
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const bookingRouter = require('./routes/booking');
 
-
+// configuring cors to allow cross-origin requests
 const cors = require("cors");
 const app = express();
 
@@ -18,6 +23,8 @@ app.use(cors({
   credentials: true,
 }))
 
+// configuring the mongodb connection via mongoose
+// and the session store via connect-mongo
 const mongoose = require('mongoose');
 const passport = require("passport");
 const session = require("express-session");
@@ -31,8 +38,6 @@ async function main(){
   await mongoose.connect(mongoDB);
 }
 
-app.set('view engine', 'jade');
-
 const sessionStore = MongoStore.create({mongoUrl: process.env.MONGO_URL, collectionName: 'sessions'})
 app.use(session({
   secret: process.env.SECRET,
@@ -43,14 +48,17 @@ app.use(session({
   
 }))
 
+// initializing the passport middleware
 app.use(passport.session());
 require('./passport/passport');
 
+app.set('view engine', 'jade');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// adding index, booking and users routes to the middleware chain
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/booking', bookingRouter);

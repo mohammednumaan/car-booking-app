@@ -12,6 +12,8 @@ module.exports.register_post = [
     .escape(),
   body("password")
     .trim()
+    .isLength({min: 8})
+    .withMessage("Password Must Have Atleast 8 Characters!")
     .escape(),
 
 
@@ -64,7 +66,7 @@ module.exports.login_post = [
 
 // a simple middlewate function to handle an 'authenticate' POST request
 module.exports.authenticate = (req, res, next) => {
-  return res.json({user: req.user})
+  return res.json({user: req.user.username, admin: req.user.isAdmin})
 }
 
 

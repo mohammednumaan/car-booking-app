@@ -16,6 +16,7 @@ const ProtectedRoute = ({}) => {
             if (jsonData.user) {
                 setAuth(prev => ({...prev, user: jsonData.user}))
                 setIsLoading(false);
+               
             }
             else{
                 navigate('/login')

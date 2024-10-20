@@ -1,21 +1,25 @@
+import React, { useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Button,
+  TextField,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  TextField,
 } from "@mui/material";
-import style from "./Booking.module.css";
-import { useState } from "react";
-import axios from "axios";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { ToastContainer, toast , Bounce } from "react-toastify";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import style from "./Booking.module.css";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function BookOwn() {
+
+  
   const navigate = useNavigate();
   const [isDual, setIsDual] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -25,6 +29,7 @@ export default function BookOwn() {
     email: "",
     pickLoc: "",
     dropLoc: "",
+    arrival: dayjs(), // For storing arrival timing
     dualTrip: { start: "", end: "" },
     reference: "",
     no_of_ppl: 1,
@@ -41,18 +46,18 @@ export default function BookOwn() {
     setFormData((prev) => ({ ...prev, [fieldName]: fieldValue }));
   };
 
-  const handleDualChange = () => {
-    const value = !isDual ? true : false;
-    setIsDual(value);
+  const handleDateChange = (newValue) => {
+    setFormData((prev) => ({ ...prev, arrival: newValue }));
   };
 
-  const handleDualTripTimingInput = (e) => {
-    const fieldName = e.target.name;
-    const fieldValue = e.target.value;
-    const prevDualValue = formData.dualTrip;
+  const handleDualChange = () => {
+    setIsDual(!isDual);
+  };
+
+  const handleDualTripTimingInput = (field, newValue) => {
     setFormData((prev) => ({
       ...prev,
-      dualTrip: { ...prevDualValue, [fieldName]: fieldValue },
+      dualTrip: { ...prev.dualTrip, [field]: newValue },
     }));
   };
 
@@ -60,9 +65,9 @@ export default function BookOwn() {
     e.preventDefault();
     let data = new FormData();
     for (let field in formData) {
-      if (field == 'dualTrip'){
-        data.append(field, JSON.stringify(formData[field]))
-      } else{
+      if (field === "dualTrip") {
+        data.append(field, JSON.stringify(formData[field]));
+      } else {
         data.append(field, formData[field]);
       }
     }
@@ -72,15 +77,41 @@ export default function BookOwn() {
       data,
       { withCredentials: true }
     );
-    if (response.booked) {
-      navigate('/history')
-    } else{
-      setErrors(response.errors)
+
+    if (response.data.booked) {
+      toast.success("Booking successful!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      setTimeout(() => {
+        navigate("/history");
+      }, 2000);
+
+    } else {
+      setErrors(response.errors);
+      toast.error("Booking failed, please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      
     }
   };
 
   return (
     <>
+      <ToastContainer />
+
       <div className="booking-own-container">
         <div className={style.header}>
           <h1 className={style["title"]}>Book A Car</h1>
@@ -119,25 +150,6 @@ export default function BookOwn() {
                 />
               </div>
             </div>
-
-            <div className={style["form-group"]}>
-              <TextField
-                label="Email"
-                id="outlined-size-small"
-                placeholder="example@example.com"
-                size="small"
-                color="#90caf9"
-                sx={{
-                  width: { xs: "270px", sm: "300px", md: "600px" },
-                  marginLeft: { xs: "10px", sm: "20px" },
-                  marginRight: { xs: "10px", sm: "20px" },
-                }}
-                xs={{ width: "300px" }}
-                name="email"
-                onChange={handleFormChange}
-              />
-            </div>
-
             <div className={style["flex-row"]}>
               <div className={style["form-group"]}>
                 <TextField
@@ -163,6 +175,38 @@ export default function BookOwn() {
                 />
               </div>
             </div>
+
+            <div className={style["form-group"]}>
+              <TextField
+                label="Email"
+                id="outlined-size-small"
+                placeholder="example@example.com"
+                size="small"
+                color="#90caf9"
+                sx={{
+                  width: { xs: "270px", sm: "300px", md: "600px" },
+                  marginLeft: { xs: "10px", sm: "20px" },
+                  marginRight: { xs: "10px", sm: "20px" },
+                  backgroundColor: "transparent",
+                }}
+                xs={{ width: "300px" }}
+                name="email"
+                onChange={handleFormChange}
+              />
+            </div>
+            <div className={style["form-group"]}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+                  label="Arrival Timings"
+                  value={formData.dualTrip.end || dayjs()}
+                  onChange={(newValue) =>
+                    handleDualTripTimingInput("end", newValue)
+                  }
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            </div>
+
             <div className={style["form-group"]}>
               <FormControl>
                 <InputLabel
@@ -191,31 +235,20 @@ export default function BookOwn() {
             </div>
 
             {isDual && (
-               <div className={style["form-timings"]}>
-               <div className={style["form-group"]}>
-                 <h4>Arrival Timings</h4>
-                 <input
-                   id={style.datetime}
-                   type="datetime-local"
-                   name="start"
-                   label="Booking Timings"
-                   value={formData.dualTrip.start || Date.now()}
-                   onChange={handleDualTripTimingInput}
-                 />
-               </div>
-               <div className={style["form-group"]}>
-                 <h4>Departure Timings</h4>
-                 <input
-                   id={style.datetime}
-                   type="datetime-local"
-                   name="end"
-                   label="Booking Timings"
-                   value={formData.dualTrip.end || Date.now()}
-                   onChange={handleDualTripTimingInput}
-
-                 />
-               </div>
-             </div>
+              <div className={style["form-timings"]}>
+                <div className={style["form-group"]}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DateTimePicker
+                      label="Departure Timings"
+                      value={formData.dualTrip.end || dayjs()}
+                      onChange={(newValue) =>
+                        handleDualTripTimingInput("end", newValue)
+                      }
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </div>
+              </div>
             )}
 
             <div className={style["form-group"]}>
@@ -234,6 +267,7 @@ export default function BookOwn() {
                 onChange={handleFormChange}
               />
             </div>
+
             <div className={style["form-group"]}>
               <FormControl>
                 <InputLabel
@@ -252,7 +286,7 @@ export default function BookOwn() {
                     marginRight: { xs: "10px", sm: "20px" },
                   }}
                   name="no_of_ppl"
-                  value={1}
+                  value={formData.no_of_ppl}
                   onChange={handleFormChange}
                 >
                   <MenuItem value="">
@@ -287,6 +321,7 @@ export default function BookOwn() {
               </Button>
             </div>
           </div>
+
           <div className={style["form-group"]}>
             <Button
               type="submit"
@@ -302,15 +337,14 @@ export default function BookOwn() {
             </Button>
           </div>
         </form>
-        {errors && errors.length !== 0 && errors.map(err => ( 
 
-          <>
-            <ul>
+        {errors &&
+          errors.length !== 0 &&
+          errors.map((err) => (
+            <ul key={err.message}>
               <li>{err.message}</li>
             </ul>
-          </>
-        )
-        )}
+          ))}
       </div>
     </>
   );

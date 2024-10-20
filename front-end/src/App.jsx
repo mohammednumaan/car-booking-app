@@ -17,6 +17,7 @@ import BookingDecision from "./components/BookingDecision/BookingDecision";
 import OngoingBookings from "./components/OngoingBookings/OngoingBookings";
 import ContactMessages from "./components/ContactMessages/ContactMessages";
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
+import "./App.css"
 
 function App() {
   let [user, setUser] = useState({ user: false });
@@ -33,14 +34,13 @@ function App() {
       }
     });
   }, []);
-
   return (
     <Routes>
       <Route index element={<Register />} />
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
 
-      {user.admin ? (
+   
         <Route element={<ProtectedRoute />}>
           <Route
             path="admin-dashboard"
@@ -60,7 +60,7 @@ function App() {
             element={<AdminDashboard children={<ContactMessages />} />}
           />
         </Route>
-      ) : (
+  
         <Route element={<ProtectedRoute user={user.user} />}>
           <Route
             path="dashboard"
@@ -85,7 +85,7 @@ function App() {
           />
           </Route>
 
-      )}
+      
     </Routes>
   );
 }

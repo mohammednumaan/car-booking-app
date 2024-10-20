@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import style from "./History.module.css";
 import { Divider } from "@mui/material";
-
+import moment from 'moment';
 export default function History() {
 
   const [history, setHistory] = useState([]);
@@ -31,13 +31,13 @@ export default function History() {
               <ul className={style["paper-content"]}>
                 <div className={style["li-container"]}>
                   <li>Departure: {data.pickLoc}</li>
-                  <li style={{color: data.isOnGoing ? 'yellow' : 'red'}}>Status of Ride: {data.isOnGoing ? 'In Progress' : 'Completed'}</li>
+                  <li style={{color: data.bookingStatus == "Pending" ? 'yellow' : data.bookingStatus == "Rejected" ? 'red' : "green"}}>Status of Ride: {data.bookingStatus}</li>
                 </div>
                 <div className={style["li-container"]}>
                   <span style={{ whiteSpace: "nowrap" }}>
-                    <li>Date: 2022-02-20</li>
+                    <li>Date: {data.dualTrip && moment(data.dualTrip.start).format('MMMM Do, YYYY h:mm A')}</li>
                   </span>
-                  <li>Driver Name: {!data.driver ? "Not Assigned" : data.driver}</li>
+                  <li>Driver Name: {!data.driverAlloted ? "Not Assigned" : data.driverAlloted}</li>
                 </div>
               </ul>
             </div>

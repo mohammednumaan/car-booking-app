@@ -60,7 +60,11 @@ export default function BookOwn() {
     e.preventDefault();
     let data = new FormData();
     for (let field in formData) {
-      data.append(field, formData[field]);
+      if (field == 'dualTrip'){
+        data.append(field, JSON.stringify(formData[field]))
+      } else{
+        data.append(field, formData[field]);
+      }
     }
 
     const response = await axios.post(
@@ -187,31 +191,31 @@ export default function BookOwn() {
             </div>
 
             {isDual && (
-              <div
-                className={style["form-timings"]}
-                style={{ marginLeft: "20px", marginRight: "20px" }}
-              >
-                <div className={style["form-group"]}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DateTimePicker"]}>
-                      <DateTimePicker
-                        onChange={handleDualTripTimingInput}
-                        label="Arrival Timings"
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider>
-                </div>
-                <div className={style["form-group"]}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DateTimePicker"]}>
-                      <DateTimePicker
-                        onChange={handleDualChange}
-                        label="Departure Timings"
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider>
-                </div>
-              </div>
+               <div className={style["form-timings"]}>
+               <div className={style["form-group"]}>
+                 <h4>Arrival Timings</h4>
+                 <input
+                   id={style.datetime}
+                   type="datetime-local"
+                   name="start"
+                   label="Booking Timings"
+                   value={formData.dualTrip.start || Date.now()}
+                   onChange={handleDualTripTimingInput}
+                 />
+               </div>
+               <div className={style["form-group"]}>
+                 <h4>Departure Timings</h4>
+                 <input
+                   id={style.datetime}
+                   type="datetime-local"
+                   name="end"
+                   label="Booking Timings"
+                   value={formData.dualTrip.end || Date.now()}
+                   onChange={handleDualTripTimingInput}
+
+                 />
+               </div>
+             </div>
             )}
 
             <div className={style["form-group"]}>

@@ -1,0 +1,68 @@
+.admin {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+  }
+  .admin .dashboard-section {
+    background: #1a1a1a;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding: 40px;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  }
+  .admin .dashboard-section h2 {
+    margin-bottom: 20px;
+    color: #fff;
+    text-align: center;
+  }
+  .admin .table-dark {
+    background-color: #1a1a1a;
+    border-radius: 1rem;
+    overflow: hidden;
+    width: 100%;
+  }
+  .admin .table-dark th,
+  .admin .table-dark td {
+    border-top: none;
+    padding: 1rem; /* Add padding to table cells */
+    vertical-align: middle;
+  }
+  .admin .table-dark thead {
+    border-radius: 1rem 1rem 0 0;
+  }
+  .admin .table-dark tbody {
+    border-radius: 0 0 1rem 1rem;
+  }
+  .admin .btn-accept {
+    background-color: #28a745;
+    color: #fff;
+    margin-right: 5px;
+  }
+  .admin .btn-reject {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  .admin .logout-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 40px;
+    background-color: #1a1a1a;
+  }
+  .admin .logout-btn {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 20px;
+  }
+  .admin .logout-btn:hover {
+    background-color: #c82333;
+  }

@@ -44,7 +44,7 @@ function BookingDecision() {
     };
 
     fetchBookings();
-  }, [bookings]);
+  }, []);
 
   const handleDecision = async (objectId, status) => {
     if (status === "Accepted" && editingBookingId === objectId) {
@@ -190,15 +190,15 @@ function BookingDecision() {
                   <tr key={booking._id}>
                     <td>{booking.first + " " + booking.last}</td>
                     <td>
-                      {booking.dualTrip
-                        ? moment(booking.dualTrip.start).format(
+                      {booking.arrival
+                        ? moment(booking.arrival).format(
                             "DD/MM/YY h:mm A"
                           )
                         : "N/A"}
                     </td>
                     <td>
-                      {booking.dualTrip
-                        ? `${moment(booking.dualTrip.start).format("hh:mm A")} - ${moment(booking.dualTrip.end).format("hh:mm A")}`
+                      {booking.dualTrip && booking.arrival
+                        ? `${moment(booking.arrival).format("hh:mm A")} - ${moment(booking.dualTrip.end).format("hh:mm A")}`
                         : "N/A"}
                     </td>
                     <td>User</td>

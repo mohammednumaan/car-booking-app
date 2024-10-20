@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
 
 // initialize the multer object with which we can successfully upload 
 // images to our server
-const upload = multer({storage, limits: {fileSize: 10 * 1024 * 1024}})
+const upload = multer({storage, limits: {fileSize: 1 * 1024 * 1024}})
 
 // configure and initialize nodemailer to send mails
 const transporter = nodemailer.createTransport({
@@ -63,10 +63,21 @@ module.exports.book_post = [
   .trim()
   .escape(),
   
-  upload.single("imageData"), 
+  (req, res, next) => {
+    upload.single("imageData")(req, res, (err) => {
+      if (err instanceof multer.MulterError) {
+        return res.json({ fileError: 'File too large. Max size is 10MB.' });
+      } else if (err) {
+        return res.json({ fileError: err.message });
+      } else if (!req.file){
+        return res.json({ fileError: 'Please Upload The Prrof Of Reference.' });
+
+      }
+      next();
+    });
+  },
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
-    console.log(req.body)
 
     if (!errors.isEmpty()) {
       return res.send({
@@ -74,6 +85,7 @@ module.exports.book_post = [
         booked : false
       });
     }
+
 
     else{
       const booking = new Booking({...req.body, user: req.user._id, img: "files/" + req.file.filename, dualTrip: JSON.parse(req.body.dualTrip)});
@@ -118,7 +130,7 @@ module.exports.confirm_booking_post = asyncHandler(async (req, res, next) => {
   await Booking.findByIdAndUpdate(objectId, newBooking);
 
   const emailOptions = {
-    from: "", 
+    from: process.env.EMAIL_USER, 
     to: "", 
     subject: `Booking Status`,
     text: `Booked!!!!`

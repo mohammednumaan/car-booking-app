@@ -9,6 +9,7 @@ const BookingSchema = new Schema({
   pickLoc: { type: String, required: true },
   dropLoc: { type: String, required: true },
 
+  arrival: {type: String},
   dualTrip: {start: String, end: String, default: {}},
 
   reference: { type: String, required: true },

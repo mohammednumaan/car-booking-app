@@ -67,8 +67,16 @@ module.exports.login_post = [
 
 // a simple middlewate function to handle an 'authenticate' POST request
 module.exports.authenticate = (req, res, next) => {
-  return res.json({user: req.user, admin: req.user.isAdmin})
+  return res.json({user: req?.user, admin: req?.user?.isAdmin})
 }
+
+// a simple middleware functoin to handle a 'logout' POST request
+module.exports.sign_out = (req, res, next) => {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.json({loggedOut: true});
+  });
+};
 
 
 

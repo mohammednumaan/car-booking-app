@@ -8,7 +8,6 @@ export default function History() {
   
   useEffect(() => {
     (async () => {
-      console.log('hi')
       const response = await fetch('http://localhost:3000/booking/history', {credentials: 'include'});
       const data = await response.json();
       console.log(data)
@@ -18,14 +17,13 @@ export default function History() {
       }
     })();
   }, [])
-  console.log(history)
   return (
     <>
       {history.length !== 0 ? (
         <>
           {history.map((data, index) => (
             
-            <div className={style["container"]}>
+            <div key={data._id} className={style["container"]}>
               <p className={style["font-p"]}> Booking #{index + 1}</p>
               <Divider variant="middle" component="div" />
               <ul className={style["paper-content"]}>
@@ -35,7 +33,7 @@ export default function History() {
                 </div>
                 <div className={style["li-container"]}>
                   <span style={{ whiteSpace: "nowrap" }}>
-                    <li>Date: {data.dualTrip && moment(data.dualTrip.start).format('MMMM Do, YYYY h:mm A')}</li>
+                    <li>Date: {moment(data.arrival).format('MMMM Do, YYYY h:mm A')}</li>
                   </span>
                   <li>Driver Name: {!data.driverAlloted ? "Not Assigned" : data.driverAlloted}</li>
                 </div>

@@ -71,14 +71,16 @@ export default function BookOwn() {
         data.append(field, formData[field]);
       }
     }
-
+    
     const response = await axios.post(
       "http://localhost:3000/booking/book",
       data,
       { withCredentials: true }
     );
 
-    if (response.data.booked) {
+
+
+    if (response?.data.booked) {
       toast.success("Booking successful!", {
         position: "top-right",
         autoClose: 5000,
@@ -94,8 +96,7 @@ export default function BookOwn() {
       }, 2000);
 
     } else {
-      setErrors(response.errors);
-      toast.error("Booking failed, please try again.", {
+      toast.error(`${!response.data.fileError ? "Booking failed, please try again." : response.data.fileError}`, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -136,6 +137,7 @@ export default function BookOwn() {
                   size="small"
                   name="first"
                   onChange={handleFormChange}
+                  required
                 />
               </div>
 
@@ -147,6 +149,8 @@ export default function BookOwn() {
                   size="small"
                   name="last"
                   onChange={handleFormChange}
+                  required
+
                 />
               </div>
             </div>
@@ -160,6 +164,8 @@ export default function BookOwn() {
                   name="pickLoc"
                   value={formData.pickLoc || " "}
                   onChange={handleFormChange}
+                  required
+
                 />
               </div>
 
@@ -172,6 +178,8 @@ export default function BookOwn() {
                   name="dropLoc"
                   value={formData.dropLoc || " "}
                   onChange={handleFormChange}
+                  required
+
                 />
               </div>
             </div>
@@ -179,6 +187,7 @@ export default function BookOwn() {
             <div className={style["form-group"]}>
               <TextField
                 label="Email"
+                type="email"
                 id="outlined-size-small"
                 placeholder="example@example.com"
                 size="small"
@@ -192,6 +201,8 @@ export default function BookOwn() {
                 xs={{ width: "300px" }}
                 name="email"
                 onChange={handleFormChange}
+                required
+
               />
             </div>
             <div className={style["form-group"]}>
@@ -239,6 +250,7 @@ export default function BookOwn() {
                 <div className={style["form-group"]}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateTimePicker
+                    
                       label="Departure Timings"
                       value={formData.dualTrip.end || dayjs()}
                       onChange={(newValue) =>
@@ -265,6 +277,8 @@ export default function BookOwn() {
                 name="reference"
                 value={formData.reference || " "}
                 onChange={handleFormChange}
+                required
+
               />
             </div>
 

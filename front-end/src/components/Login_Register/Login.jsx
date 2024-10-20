@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 import './Form.css'
+import { toast, ToastContainer } from "react-toastify";
 
 
 export default function Login(){
@@ -24,11 +25,20 @@ export default function Login(){
             headers: {'Content-Type': 'application/json'},
             credentials: 'include'
         });
-        console.log(response)
         const jsonData = await response.json();
-        // console.log(jsonData)
         if (jsonData.login){
             navigate('/dashboard', {state: {user: jsonData.login}})
+        } else{
+            console.log(jsonData)
+            toast.error(jsonData.error, {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
         }
 
     }
@@ -36,7 +46,8 @@ export default function Login(){
     return (
 
 
-        <div className="form">            
+        <div className="form">    
+            <ToastContainer />        
             <div className="form-container">
                 <div className="form-ui">
                     <form onSubmit={loginUser}>

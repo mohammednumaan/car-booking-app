@@ -1,68 +1,83 @@
 .admin {
-    background-color: #000;
-    color: #fff;
-    font-family: 'Arial', sans-serif;
+  color: #fff;
+  font-family: "Arial", sans-serif;
+}
+
+.admin .dashboard-section {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  padding: 40px;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+.admin .dashboard-section h2 {
+  margin-bottom: 20px;
+  color: #fff;
+  text-align: center;
+}
+.admin .table-dark {
+  background-color: #1a1a1a;
+  overflow: hidden;
+  width: 100%;
+}
+.admin .table-dark th,
+.admin .table-dark td {
+  border-top: none;
+  padding: 1rem;
+  vertical-align: middle;
+}
+.admin .table-dark th {
+  border-top: 2px solid rgba(255, 255, 255, 0.2); /* Top border */
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2); /* Bottom border */
+  border-left: 2px solid rgba(255, 255, 255, 0.2); /* Remove left border */
+  border-right: none; /* Remove right border */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  padding: 10px; /* Adds some space for a cleaner look */
+}
+
+/* Optional: Add borders for the first and last columns if needed */
+.admin .table-dark th:first-child {
+  border-left: 2px solid rgba(255, 255, 255, 0.2); /* Left border for the first column */
+}
+
+.admin .table-dark th:last-child {
+  border-right: 2px solid rgba(255, 255, 255, 0.2); /* Right border for the last column */
+}
+
+.admin .table-dark thead {
+  border-radius: 1rem 1rem 0 0;
+}
+.admin .table-dark tbody {
+  border-radius: 0 0 1rem 1rem;
+}
+
+.admin .btn-con {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.admin .btn-accept {
+  background-color: #28a745;
+  color: #fff;
+  margin: 0px;
+
+}
+.admin .btn-reject {
+  background-color: #dc3545;
+  color: #fff;
+  margin: 0px;
+}
+
+@keyframes autofill {
+  100% {
+    background: transparent;
+    color: inherit;
   }
-  .admin .dashboard-section {
-    background: #1a1a1a;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    padding: 40px;
-    border-radius: 1rem;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+@-webkit-keyframes autofill {
+  100% {
+    background: transparent;
+    color: inherit;
   }
-  .admin .dashboard-section h2 {
-    margin-bottom: 20px;
-    color: #fff;
-    text-align: center;
-  }
-  .admin .table-dark {
-    background-color: #1a1a1a;
-    border-radius: 1rem;
-    overflow: hidden;
-    width: 100%;
-  }
-  .admin .table-dark th,
-  .admin .table-dark td {
-    border-top: none;
-    padding: 1rem; /* Add padding to table cells */
-    vertical-align: middle;
-  }
-  .admin .table-dark thead {
-    border-radius: 1rem 1rem 0 0;
-  }
-  .admin .table-dark tbody {
-    border-radius: 0 0 1rem 1rem;
-  }
-  .admin .btn-accept {
-    background-color: #28a745;
-    color: #fff;
-    margin-right: 5px;
-  }
-  .admin .btn-reject {
-    background-color: #dc3545;
-    color: #fff;
-  }
-  .admin .logout-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 20px;
-    border-radius: 40px;
-    background-color: #1a1a1a;
-  }
-  .admin .logout-btn {
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    border-radius: 20px;
-  }
-  .admin .logout-btn:hover {
-    background-color: #c82333;
-  }
+}

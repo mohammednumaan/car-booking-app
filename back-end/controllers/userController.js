@@ -67,7 +67,7 @@ module.exports.login_post = [
 
 // a simple middlewate function to handle an 'authenticate' POST request
 module.exports.authenticate = (req, res, next) => {
-  return res.json({user: req.user.username, admin: req.user.isAdmin})
+  return res.json({user: req.user, admin: req.user.isAdmin})
 }
 
 

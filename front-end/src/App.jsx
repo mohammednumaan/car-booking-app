@@ -1,6 +1,7 @@
 import {
   Route,
   Routes,
+  useNavigate,
 } from "react-router-dom";
 
 import Dashboard from "./components/UserDashboard/Dashboard";
@@ -13,6 +14,7 @@ import Login from "./components/Login_Register/Login";
 import History from "./components/History/History";
 import Account from "./components/Account/Account";
 import Document from "./components/Document/Document";
+import Contact from './components/Contact/Contact';
 import BookingDecision from "./components/BookingDecision/BookingDecision";
 import OngoingBookings from "./components/OngoingBookings/OngoingBookings";
 import ContactMessages from "./components/ContactMessages/ContactMessages";
@@ -21,6 +23,7 @@ import "./App.css"
 
 function App() {
   let [user, setUser] = useState({ user: false });
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async function isAuthenticated() {
@@ -31,8 +34,9 @@ function App() {
       const jsonData = await response.json();
       if (jsonData.user) {
         setUser((prev) => ({ ...prev, user: jsonData.user }));
-      }
-    });
+        // navigate(jsonData.admin ? '/admin-dashboard' : '/dashboard')
+      } 
+    })();
   }, []);
   return (
     <Routes>
@@ -40,7 +44,6 @@ function App() {
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
 
-   
         <Route element={<ProtectedRoute />}>
           <Route
             path="admin-dashboard"
@@ -82,6 +85,10 @@ function App() {
           <Route
             path="document"
             element={<PrimaryComponent children={<Document />} />}
+          />
+          <Route
+            path="contact"
+            element={<PrimaryComponent children={<Contact />} />}
           />
           </Route>
 

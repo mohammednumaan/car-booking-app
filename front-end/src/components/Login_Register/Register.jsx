@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Form.css";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast , Bounce } from "react-toastify";
 
 export default function Register() {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -22,12 +24,38 @@ export default function Register() {
     });
     const jsonData = await response.json();
     if (jsonData.registered) {
-      navigate("/login");
+      toast.success("Booking successful!", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+
+    }
+    else {
+      toast.error("Booking failed, please try again.", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   }
 
   return (
+    
     <div className="form">
+      <ToastContainer />
       <div className="form-container">
 
         <div className="form-ui">

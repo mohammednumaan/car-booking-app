@@ -1,9 +1,6 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Card, Box, Stack } from "@mui/material";
-import AdbIcon from "@mui/icons-material/Adb";
-import moment from 'moment'
-
-
+import moment from "moment";
+import './BookingDecision.module.css'
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -16,6 +13,8 @@ function BookingDecision() {
     driverNumber: "",
   });
   const navigate = useNavigate();
+
+  
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -99,7 +98,6 @@ function BookingDecision() {
         console.error(error);
       }
     } else if (status === "Rejected") {
-
       // Handle rejection without needing driver details
       try {
         const response = await fetch(
@@ -164,12 +162,6 @@ function BookingDecision() {
 
   return (
     <div className="admin">
-      <div className="container logout-section">
-        <div>Welcome, Admin</div>
-        <button className="logout-btn" onClick={handleLogout}>
-          Logout
-        </button>
-      </div>
       <div className="container dashboard-section">
         <h2>Admin Dashboard</h2>
         <div className="table-responsive">
@@ -199,12 +191,14 @@ function BookingDecision() {
                     <td>{booking.first + " " + booking.last}</td>
                     <td>
                       {booking.dualTrip
-                        ? moment(booking.dualTrip.start).format('DD/MM/YY h:mm A')
+                        ? moment(booking.dualTrip.start).format(
+                            "DD/MM/YY h:mm A"
+                          )
                         : "N/A"}
                     </td>
                     <td>
                       {booking.dualTrip
-                        ? `${moment(booking.dualTrip.start).format('hh:mm A')} - ${moment(booking.dualTrip.end).format('hh:mm A')}`
+                        ? `${moment(booking.dualTrip.start).format("hh:mm A")} - ${moment(booking.dualTrip.end).format("hh:mm A")}`
                         : "N/A"}
                     </td>
                     <td>User</td>
@@ -260,7 +254,7 @@ function BookingDecision() {
                           Accept
                         </button>
                       ) : (
-                        <>
+                        <div className="admin btn-con">
                           <button
                             className="btn btn-accept btn-sm"
                             onClick={() => handleEdit(booking._id)}
@@ -275,7 +269,7 @@ function BookingDecision() {
                           >
                             Reject
                           </button>
-                        </>
+                        </div>
                       )}
                     </td>
                   </tr>

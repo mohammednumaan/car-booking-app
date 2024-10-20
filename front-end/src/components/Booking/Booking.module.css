@@ -45,6 +45,8 @@
 }
 
 
+  
+
 .form-timings {
     display: flex;
     flex-direction: row;
@@ -68,4 +70,21 @@
   .title {
    font-size: 16px;
   }
+  }
+
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #121212 inset !important; 
+    box-shadow: 0 0 0 1000px #121212 inset !important; 
+    -webkit-text-fill-color: white !important; 
+  }
+  
+
+  input:-webkit-autofill {
+    transition: background-color 5000s ease-in-out 0s !important;
+  }
+  
+
+  input:autofill {
+    box-shadow: 0 0 0 1000px #121212 inset !important;
   }

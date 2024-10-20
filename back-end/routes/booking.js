@@ -13,6 +13,10 @@ const router = express.Router();
 router.post('/book', bookingController.book_post)
 router.post('/confirm-booking', bookingController.confirm_booking_post)
 router.get('/history', bookingController.booking_history_get)
+router.get('/admin/on-going', bookingController.on_going_bookings_get)
+router.put('/admin/confirm-reject', bookingController.confirm_booking_post)
+
+
 
 
 module.exports = router;

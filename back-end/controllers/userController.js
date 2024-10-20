@@ -26,7 +26,8 @@ module.exports.register_post = [
       hash: saltHash.hash,
       email : req.body.email,
       staffID: req.body.staffID,
-      phonenumber : req.body.phonenumber
+      phonenumber : req.body.phonenumber,
+      isAdmin: true
     });
 
     if (!errors.isEmpty()) {

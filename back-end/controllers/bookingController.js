@@ -4,13 +4,18 @@ const path = require("path");
 const Booking = require("../models/booking");
 const User = require("../models/users");
 const { body, validationResult } = require("express-validator");
+const nodemailer = require("nodemailer")
+
+// configuring the dotenv package to populate the
+// process node object to access env variables
+require("dotenv").config({path: "../../.env"});
 
 // configuring multer to handle multipart formdata (images)
 // and upload those images to the /uploads folder in the root
 const multer = require('multer')
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/')
+    cb(null, 'files/')
   },
   filename: function(req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
@@ -20,6 +25,18 @@ const storage = multer.diskStorage({
 // initialize the multer object with which we can successfully upload 
 // images to our server
 const upload = multer({storage, limits: {fileSize: 10 * 1024 * 1024}})
+
+// configure and initialize nodemailer to send mails
+const transporter = nodemailer.createTransport({
+  service:"gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: "",
+    pass: ""
+  }
+})
 
 // a list of middlewares to handle a 'book' POST request
 module.exports.book_post = [
@@ -32,16 +49,12 @@ module.exports.book_post = [
   .escape(),
   body("email")
   .trim()
-  .isEmail()
-  .withMessage("Please Enter a Valid Email!")
   .escape(),
   body("pickLoc")
   .trim()
-  .notEmpty()
   .escape(),
   body("dropLoc")
   .trim()
-  .notEmpty()
   .escape(),
   body("reference")
   .trim()
@@ -53,16 +66,17 @@ module.exports.book_post = [
   upload.single("imageData"), 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
+    console.log(req.body)
 
     if (!errors.isEmpty()) {
-      res.send({
+      return res.send({
         errors: errors.array(),
         booked : false
       });
     }
 
     else{
-      const booking = new Booking({...req.body, user: req.user._id, img: "images/" + req.file.filename});
+      const booking = new Booking({...req.body, user: req.user._id, img: "files/" + req.file.filename, dualTrip: JSON.parse(req.body.dualTrip)});
       await booking.save();
       return res.json({booked: true, booking});
     }
@@ -73,7 +87,7 @@ module.exports.book_post = [
 
 // a simple controller function to handle 'booking history' GET request
 module.exports.booking_history_get = asyncHandler(async (req, res, next) => {
-  const bookingHistory = await Booking.find({user: req.user._id, isOnGoing: true});
+  const bookingHistory = await Booking.find({user: req.user._id});
   res.json({history: bookingHistory});
 })
 
@@ -85,18 +99,39 @@ module.exports.on_going_bookings_get = asyncHandler(async (req, res, next) => {
 
 // a simple controller function to handle 'confirm booking' POST request
 module.exports.confirm_booking_post = asyncHandler(async (req, res, next) => {
-  const {bookingId, confirmed} = req.body;
-  const booking = await Booking.findById(bookingId);
+  const {objectId, status, driverAlloted, driverNumber} = req.body;
+  console.log(status)
+  const booking = await Booking.findById(objectId);
 
   if (!booking) return res.json({error: "Booking Does Not Exist!"});
 
   const newBooking = new Booking({
     ...booking,
-    bookingStatus: (confirmed) ? true : false,
-    isOnGoing: (confirmed) ? true : false
+    bookingStatus: status,
+    isOnGoing: (status == "Accepted") ? true : false,
+    driverAlloted,
+    driverNumber,
+    _id: booking._id
   })
 
-  await Booking.findByIdAndUpdate(bookingId, newBooking);
+  console.log(newBooking)
+  await Booking.findByIdAndUpdate(objectId, newBooking);
+
+  const emailOptions = {
+    from: "", 
+    to: "", 
+    subject: `Booking Status`,
+    text: `Booked!!!!`
+  };
+
+  transporter.sendMail(emailOptions, (error, info) => {
+    if (error) {
+      console.error("Error sending email: ", error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
+
   res.json({bookingStatus: newBooking.bookingStatus})
 })
   

@@ -131,7 +131,7 @@ module.exports.confirm_booking_post = asyncHandler(async (req, res, next) => {
 
   const emailOptions = {
     from: process.env.EMAIL_USER, 
-    to: "", 
+    to: "voidofficial0191@gmail.com", 
     subject: `Booking Status`,
     text: `Booked!!!!`
   };

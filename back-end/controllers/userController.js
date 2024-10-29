@@ -9,7 +9,49 @@ const passport = require("passport");
 module.exports.register_post = [
   body("username")
     .trim()
+    .custom(async (value, {req}) => {
+      const username = await User.findOne({username: value});
+      if (username) throw new Error("Username is Already Registered!");
+      return true;
+    })
     .escape(),
+  body("email")
+    .trim()
+    .isEmail()
+    .withMessage("Please Enter a Valid Email")
+    .custom(async (value, {req}) => {
+
+      const isPsgitechEmail = value.endsWith('@psgitech.ac.in');
+      if (!isPsgitechEmail) throw new Error("Your Email Is Not Valid. Emails Should Be Connected To The PSGItech Instituition!")
+
+      else{
+        const email = await User.findOne({email: value});
+        if (email) return false;
+        return true;
+      }
+    })
+
+    .escape(),
+  body("staffID")
+    .trim()
+    .custom(async (value, {req}) => {
+      const staffId = await User.findOne({staffID: value});
+      if (staffId) throw new Error("The StaffID is Already Registered!");
+      return true;
+    })
+    .escape(),
+
+  body("phonenumber")
+    .trim()
+    .isLength(10)
+    .withMessage("Phone Number Must Be 10 Digits!")
+    .custom(async (value, {req}) => {
+      const phone = await User.findOne({phone: value});
+      if (phone) return false;
+      return true;
+    })
+    .escape(),
+
   body("password")
     .trim()
     .isLength({min: 8})
@@ -26,24 +68,20 @@ module.exports.register_post = [
       hash: saltHash.hash,
       email : req.body.email,
       staffID: req.body.staffID,
-      phonenumber : req.body.phonenumber,
+      phone : req.body.phonenumber,
       isAdmin: true
     });
 
     if (!errors.isEmpty()) {
       res.send({
-        username: user.username,
-        password: req.body.password,
         errors: errors.array(),
         registered : false
       });
-    } else {
-      try {
-        await user.save();
-        res.json({registered: true});
-      } catch (err) {
-        return next(err);
-      }
+    } 
+    
+    else {
+      await user.save();
+      res.json({registered: true});
     }
   }),
 ];

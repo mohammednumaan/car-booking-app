@@ -17,11 +17,14 @@ export default function History() {
       }
     })();
   }, [])
+
   return (
     <>
-      {history.length !== 0 ? (
+      {history.length !== 0 && (
         <>
-          {history.map((data, index) => (
+          <h1>Current Bookings</h1>
+
+          {history.filter(data => data.bookingStatus !== "Rejected").map((data, index) => (
             
             <div key={data._id} className={style["container"]}>
               <p className={style["font-p"]}> Booking #{index + 1}</p>
@@ -40,12 +43,34 @@ export default function History() {
               </ul>
             </div>
             
-          ))}
+        ))}
         </>
-
-      ) : 
-        <h1 style={{textAlign: 'center'}}>You Have No Bookings Yet!</h1>
-      }
+      )}
+      {history.length !== 0 && (
+        <>
+          <h1>Previous Bookings</h1>
+          {history.filter(data => data.bookingStatus  === "Rejected").map((data, index) => (
+            
+            <div key={data._id} className={style["container"]}>
+              <p className={style["font-p"]}> Booking #{index + 1}</p>
+              <Divider variant="middle" component="div" />
+              <ul className={style["paper-content"]}>
+                <div className={style["li-container"]}>
+                  <li>Departure: {data.pickLoc}</li>
+                  <li style={{color: data.bookingStatus == "Pending" ? 'yellow' : data.bookingStatus == "Rejected" ? 'red' : "green"}}>Status of Ride: {data.bookingStatus}</li>
+                </div>
+                <div className={style["li-container"]}>
+                  <span style={{ whiteSpace: "nowrap" }}>
+                    <li>Date: {moment(data.arrival).format('MMMM Do, YYYY h:mm A')}</li>
+                  </span>
+                  <li>Driver Name: {!data.driverAlloted ? "Not Assigned" : data.driverAlloted}</li>
+                </div>
+              </ul>
+            </div>
+            
+        ))}
+        </>
+      )}
     </>
   );
 }

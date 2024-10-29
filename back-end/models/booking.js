@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const BookingSchema = new Schema({
-  first: { type: String, required: true },
-  last: { type: String, required: true },
+  fullname: { type: String, required: true },
   email: { type: String, required: true },
 
   pickLoc: { type: String, required: true },
@@ -14,6 +13,7 @@ const BookingSchema = new Schema({
 
   reference: { type: String, required: true },
   no_of_ppl: { type: Number, required: true },
+  vehical: {type: String, required: true, default: "Car"},
   img: { type: String, required: true, default: " "},
 
   user: {type: Schema.Types.ObjectId, required: true},
@@ -26,4 +26,4 @@ const BookingSchema = new Schema({
 
 });
 
-module.exports = mongoose.model("Booking", BookingSchema);
+module.exports = mongoose.model("Booking", BookingSchema);  

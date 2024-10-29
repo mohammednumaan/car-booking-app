@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
 
 // initialize the multer object with which we can successfully upload 
 // images to our server
-const upload = multer({storage, limits: {fileSize: 1 * 1024 * 1024}})
+const upload = multer({storage, limits: {fileSize: 2 * 1024 * 1024}})
 
 // configure and initialize nodemailer to send mails
 const transporter = nodemailer.createTransport({
@@ -40,55 +40,72 @@ const transporter = nodemailer.createTransport({
 
 // a list of middlewares to handle a 'book' POST request
 module.exports.book_post = [
+   (req, res, next) => {
+    upload.single("imageData")(req, res, (err) => {
+      
+      if (err instanceof multer.MulterError) {
+        return res.json({ fileError: 'File too large. Max size is 10MB.' });
+      } else if (err) {
+        return res.json({ fileError: err.message });
+      } else if (!req.file){
+        return res.json({ fileError: 'Please Upload The Proof Of Reference.' });
+
+      }
+      next();
+    });
+  },
   
-  body("first")
-  .trim()
-  .escape(),
-  body("last")
-  .trim()
-  .escape(),
+  body("fullname")
+  .escape()
+  .custom(async (value, {req}) => {
+    const user = await User.findOne({username: value});
+      if (user) return true;
+      else throw new Error("Username Does Not Exist, Please Enter a Valid Username!");
+  }),
+
   body("email")
-  .trim()
-  .escape(),
+    .escape()
+    .isEmail()
+    .withMessage("Please Enter a Valid Email")
+    .custom(async (value) => {
+
+      const isPsgitechEmail = value.endsWith('@psgitech.ac.in');
+      if (!isPsgitechEmail) throw new Error("Your Email Is Not Valid. Emails Should Be Connected To The PSGItech Instituition!")
+      else{
+        const email = await User.findOne({email: value});
+        if (email) return true;
+        else throw new Error("Email Address Doesn't Exist. Please Enter a Valid Email Address!");
+      }
+  }),
+
   body("pickLoc")
   .trim()
-  .escape(),
+  .escape(),  
   body("dropLoc")
   .trim()
-  .escape(),
+  .escape(),  
   body("reference")
   .trim()
   .escape(),
   body("no_of_ppl")
   .trim()
   .escape(),
+  body("vehical")
+  .trim()
+  .escape(),
   
-  (req, res, next) => {
-    upload.single("imageData")(req, res, (err) => {
-      if (err instanceof multer.MulterError) {
-        return res.json({ fileError: 'File too large. Max size is 10MB.' });
-      } else if (err) {
-        return res.json({ fileError: err.message });
-      } else if (!req.file){
-        return res.json({ fileError: 'Please Upload The Prrof Of Reference.' });
-
-      }
-      next();
-    });
-  },
+ 
   asyncHandler(async (req, res, next) => {
+    console.log("hello")
     const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
+      if (!errors.isEmpty()) {
       return res.send({
         errors: errors.array(),
         booked : false
       });
     }
-
-
     else{
-      const booking = new Booking({...req.body, user: req.user._id, img: "files/" + req.file.filename, dualTrip: JSON.parse(req.body.dualTrip)});
+      const booking = new Booking({...req.body, user: req.user._id, img: "files/" + req.file.filename});
       await booking.save();
       return res.json({booked: true, booking});
     }
@@ -99,7 +116,7 @@ module.exports.book_post = [
 
 // a simple controller function to handle 'booking history' GET request
 module.exports.booking_history_get = asyncHandler(async (req, res, next) => {
-  const bookingHistory = await Booking.find({user: req.user._id});
+  const bookingHistory = await Booking.find({user: req.user._id}).sort({arrival: -1})
   res.json({history: bookingHistory});
 })
 

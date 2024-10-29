@@ -5,8 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast , Bounce } from "react-toastify";
 
 export default function Register() {
-  const [formData, setFormData] = useState({ username: "", password: "" });
-  const [errors, setErrors] = useState([]);
+  const [formData, setFormData] = useState({ username: "", password: "", email: "", staffID: "", phone: "" });
   const navigate = useNavigate();
 
   function handleFormChange(e) {

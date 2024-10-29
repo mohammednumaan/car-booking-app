@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { json, Link, useNavigate } from "react-router-dom";
 import "./Form.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast , Bounce } from "react-toastify";
 
 export default function Register() {
   const [formData, setFormData] = useState({ username: "", password: "" });
+  const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
 
   function handleFormChange(e) {
@@ -15,23 +16,26 @@ export default function Register() {
   }
 
   async function registerUser(e) {
+
     e.preventDefault();
+
     const response = await fetch("http://localhost:3000/users/register", {
       method: "POST",
       body: JSON.stringify(formData),
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     });
+
     const jsonData = await response.json();
+
     if (jsonData.registered) {
-      toast.success("Booking successful!", {
-        position: "bottom-right",
+      toast.success("Registered successfully!", {
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+        draggable: false,
       });
 
       setTimeout(() => {
@@ -40,15 +44,17 @@ export default function Register() {
 
     }
     else {
-      toast.error("Booking failed, please try again.", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      jsonData.errors.map((err) => {
+        toast.error(`${err.msg}` ,{
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+        });
+      })
+
     }
   }
 
@@ -89,7 +95,7 @@ export default function Register() {
                 value={formData.email}
                 id="email"
                 name="email"
-                type="mail"
+                type="email"
                 required
               />
               <label htmlFor="email">Email</label>
@@ -100,7 +106,7 @@ export default function Register() {
                 value={formData.staffID}
                 id="staffID"
                 name="staffID"
-                type="text"
+                type="number"
                 required
               />
               <label htmlFor="staffID">Enter Staff ID</label>

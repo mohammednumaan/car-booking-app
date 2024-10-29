@@ -171,7 +171,6 @@ function BookingDecision() {
                 <th scope="col">Guest Name</th>
                 <th scope="col">Date</th>
                 <th scope="col">Booking Timings</th>
-                <th scope="col">Guest Role</th>
                 <th scope="col">Reference</th>
                 <th scope="col">PDF</th>
                 <th scope="col">Status</th>
@@ -201,7 +200,6 @@ function BookingDecision() {
                         ? `${moment(booking.arrival).format("hh:mm A")} - ${moment(booking.dualTrip.end).format("hh:mm A")}`
                         : "N/A"}
                     </td>
-                    <td>User</td>
                     <td>{booking.reference || "N/A"}</td>
                     <td>
                       {booking.img ? (

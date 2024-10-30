@@ -13,8 +13,7 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const bookingRouter = require('./routes/booking');
-const adminROuter = require('./routes/admin');
-
+const adminRouter = require('./routes/admin');
 
 // configuring cors to allow cross-origin requests
 const cors = require("cors");
@@ -64,7 +63,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/booking', bookingRouter);
-app.use('/admin', adminROuter);
+app.use('/admin', adminRouter);
 
 
 

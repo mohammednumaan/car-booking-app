@@ -3,6 +3,8 @@ import moment from "moment";
 import './BookingDecision.module.css'
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast} from "react-toastify";
 
 function BookingDecision() {
   const [bookings, setBookings] = useState([]);
@@ -14,13 +16,13 @@ function BookingDecision() {
   });
   const navigate = useNavigate();
 
-  
+
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/booking/admin/on-going",
+          "http://localhost:3000/admin/bookings/ongoing",
           {
             method: "GET",
             headers: {
@@ -29,15 +31,14 @@ function BookingDecision() {
           }
         );
 
+        const data = await response.json();
         if (response.ok) {
-          const data = await response.json();
-          console.log(data);
           setBookings(data.bookings);
         } else {
-          throw new Error("Failed to fetch bookings");
+          throw new Error("Failed To Fetch")
         }
       } catch (error) {
-        console.error(error);
+          console.log(error);
       } finally {
         setLoading(false);
       }
@@ -59,9 +60,9 @@ function BookingDecision() {
 
       try {
         const response = await fetch(
-          "http://localhost:3000/booking/admin/confirm-reject",
+          "http://localhost:3000/admin/bookings/decision",
           {
-            method: "PUT",
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
@@ -91,6 +92,15 @@ function BookingDecision() {
           setBookings(updatedBookings);
           setEditingBookingId(null);
           setDriverDetails({ driverAlloted: "", driverNumber: "" });
+          toast.success("Booking Accepted", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         } else {
           throw new Error("Failed to update status");
         }
@@ -101,15 +111,16 @@ function BookingDecision() {
       // Handle rejection without needing driver details
       try {
         const response = await fetch(
-          "http://localhost:3000/booking/admin/confirm-reject",
+          "http://localhost:3000/admin/bookings/decision",
           {
-            method: "PUT",
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ objectId, status }),
           }
         );
+
 
         if (response.ok) {
           const updatedBookings = bookings.map((booking) => {
@@ -118,10 +129,19 @@ function BookingDecision() {
             }
             return booking;
           });
-          // cibsike,log(updatedBookings)
           setBookings(updatedBookings);
+          toast.error("Booking Rejected", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          
         } else {
-          throw new Error("Failed to update status");
+          throw new Error("Failed To Fetch!")          
         }
       } catch (error) {
         console.error(error);
@@ -162,6 +182,8 @@ function BookingDecision() {
 
   return (
     <div className="admin">
+      <ToastContainer />
+
       <div className="container dashboard-section">
         <h2>Admin Dashboard</h2>
         <div className="table-responsive">
@@ -187,24 +209,24 @@ function BookingDecision() {
               ) : (
                 bookings.map((booking) => (
                   <tr key={booking._id}>
-                    <td>{booking.first + " " + booking.last}</td>
+                    <td>{booking.fullname}</td>
                     <td>
                       {booking.arrival
                         ? moment(booking.arrival).format(
-                            "DD/MM/YY h:mm A"
-                          )
+                          "DD/MM/YY h:mm A"
+                        )
                         : "N/A"}
                     </td>
                     <td>
-                      {booking.dualTrip && booking.arrival
-                        ? `${moment(booking.arrival).format("hh:mm A")} - ${moment(booking.dualTrip.end).format("hh:mm A")}`
-                        : "N/A"}
+                      {booking.arrival && booking.departure
+                        ? `${moment(booking.arrival).format("hh:mm A")} - ${moment(booking.departure).format("hh:mm A")}`
+                        : booking.arrival ? `${moment(booking.arrival).format("hh:mm A")} (One-Way)` : "N/A"}
                     </td>
                     <td>{booking.reference || "N/A"}</td>
                     <td>
                       {booking.img ? (
                         <a
-                          href={`http://localhost:3000/admin/${booking.img}`}
+                          href={`http://localhost:3000/admin/bookings/files/${booking.img}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -214,7 +236,7 @@ function BookingDecision() {
                         "No PDF"
                       )}
                     </td>
-                    <td>{booking.bookingStatus}</td>
+                    <td style={{color: `${booking.bookingStatus === "Pending" ? "yellow" : booking.bookingStatus === "Accepted" ? "green" : "Red"}`}}>{booking.bookingStatus}</td>
                     <td>
                       {editingBookingId === booking._id ? (
                         <input

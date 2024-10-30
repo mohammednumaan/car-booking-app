@@ -12,7 +12,7 @@ function OngoingBookings() {
     const fetchBookings = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/booking/admin/on-going",
+          "http://localhost:3000/admin/bookings/ongoing",
           {
             method: "GET",
             headers: {
@@ -80,7 +80,7 @@ function OngoingBookings() {
               ) : (
                 bookings.map((booking) => (
                   <tr key={booking._id}>
-                    <td>{booking.first + " " + booking.last}</td>
+                    <td>{booking.fullname}</td>
                     <td>
                       {booking.arrival
                         ? moment(booking.arrival).format(
@@ -89,15 +89,15 @@ function OngoingBookings() {
                         : "N/A"}
                     </td>
                     <td>
-                      {booking.dualTrip && booking.arrival
-                        ? `${moment(booking.arrival).format("hh:mm A")} - ${moment(booking.dualTrip.end).format("hh:mm A")}`
-                        : "N/A"}
+                      {booking.arrival && booking.departure 
+                        ? `${moment(booking.arrival).format("hh:mm A")}} - ${moment(booking.departure).format("hh:mm A")}}` 
+                        : booking.arrival ? moment(booking.arrival).format("hh:mm A") : "N/A"}
                     </td>
                     <td>{booking.reference || "N/A"}</td>
                     <td>
                       {booking.img ? (
                         <a
-                          href={`http://localhost:3000/admin/${booking.img}`}
+                          href={`http://localhost:3000/admin/bookings/files/${booking.img}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >

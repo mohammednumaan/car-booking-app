@@ -1,28 +1,12 @@
 // imports
 const express = require("express");
-const path = require("path");
-const fs = require("fs");
+const adminController = require("../controllers/adminController")
 
 // initializing a router to handle similar routes
 // in this case its for the '/booking' prefix route
 const router = express.Router();
 
-router.get("/files/:filename", (req, res) => {
-    const filename = req.params.filename;
-    const filePath = path.join(__dirname, "..", "files", filename);
-
-
-    fs.access(filePath, fs.constants.F_OK, (err) => {
-        if (err) {
-            console.error(`File not found: ${filePath}`);
-            return res.status(404).json({ error: "File not found" });
-        }
-        res.sendFile(filePath, (sendErr) => {
-            if (sendErr) {
-                console.error(`Error sending file: ${sendErr}`);
-                return res.status(500).json({ error: "Error sending file" });
-            }
-        });
-    });
-});
+router.get("/bookings/ongoing", adminController.on_going_bookings_get)
+router.get("/bookings/files/:filename", adminController.file_view_get);
+router.post("/bookings/decision", adminController.confirm_booking_post)
 module.exports = router;

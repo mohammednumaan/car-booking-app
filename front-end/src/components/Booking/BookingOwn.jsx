@@ -250,7 +250,7 @@ export default function BookOwn() {
                     <DateTimePicker
                     
                       label="Departure Timings"
-                      value={formData.departure}
+                      value={formData.departure || dayjs()}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>

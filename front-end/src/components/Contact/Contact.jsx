@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  TextField,
-  Button,
-  Container,
-  Typography,
-  Box,
-} from "@mui/material";
+import { TextField, Button, Container, Typography, Box } from "@mui/material";
 import style from "./Contact.module.css";
 
 export default function Contact() {
@@ -31,9 +25,17 @@ export default function Contact() {
   return (
     <Container maxWidth="sm" className="content">
       <Box sx={{ textAlign: "center", marginTop: "100px" }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Contact Us
+        <Typography
+          variant="h4"
+          gutterBottom
+          component="h2"
+          sx={{ textAlign: "center", marginTop: "20px" }}
+        >
+          Contact Our Admins
         </Typography>
+        <hr />
+        <br />
+
         <form onSubmit={handleSubmit} className={style.contactForm}>
           <TextField
             fullWidth
@@ -98,6 +100,14 @@ export default function Contact() {
         </form>
       </Box>
       <Box sx={{ mt: 4, p: 2, borderRadius: 2 }}>
+        <hr />
+        <Typography variant="body1" align="center">
+          For booking issues or inquiries, please contact our admin. This form
+          is only for reporting problems related to your vehicle booking.
+          Booking requests will not be processed here.
+        </Typography>
+        <hr />
+        <br />
         <Typography variant="h6" component="h2" gutterBottom>
           Contact Our Admins
         </Typography>

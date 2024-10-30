@@ -8,7 +8,7 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { ToastContainer, toast , Bounce } from "react-toastify";
+import { ToastContainer, toast} from "react-toastify";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -145,7 +145,12 @@ export default function BookOwn() {
                   value={formData.fullname}
                   onChange={handleFormChange}
                   required
-                sx={{ width: "300px" }}
+                  sx={{
+                    width: { xs: "270px", sm: "300px", md: "600px" },
+                    marginLeft: { xs: "10px", sm: "20px" },
+                    marginRight: { xs: "10px", sm: "20px" },
+                    backgroundColor: "transparent",
+                  }}
 
                 />
               </div>

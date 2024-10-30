@@ -1,8 +1,7 @@
 import React from "react";
 import {
   Typography,
-  Container,
-  Toolbar, // Import Toolbar here
+  Container
 } from "@mui/material";
 import style from "./ContactMessages.module.css";
 
